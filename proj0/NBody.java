@@ -5,13 +5,14 @@ public class NBody {
     return in.readDouble();
   }
   public static Body[] readBodies(String file) {
-    Body[] bodies = new Body[5];
+
     In in = new In(file);
     int numPlanets = in.readInt();
     double radius = in.readDouble();
     int index = 0;
+    Body[] bodies = new Body[numPlanets];
 
-    while (index < 5) {
+    while (index < numPlanets) {
       double xxPos = in.readDouble();
       double yyPos = in.readDouble();
       double xxVel = in.readDouble();
@@ -25,6 +26,7 @@ public class NBody {
   }
   public static void main(String[] args) {
 
+
     StdDraw.enableDoubleBuffering();
 
     double T = Double.parseDouble(args[0]);
@@ -32,6 +34,10 @@ public class NBody {
     String fileName = args[2];
     double radius = readRadius(fileName);
     Body[] bodies = readBodies(fileName);
+
+    In in = new In(fileName);
+    int numPlanets = in.readInt();
+
     StdDraw.setScale(-1 * radius, radius);
     StdDraw.picture(0, 0, "/images/starfield.jpg");
     for (Body b: bodies) {
@@ -44,8 +50,8 @@ public class NBody {
     double[] netYs = new double[5];
     */
 
-    double[] xForces = new double[5];
-    double[] yForces = new double[5];
+    double[] xForces = new double[numPlanets];
+    double[] yForces = new double[numPlanets];
 
     while (time < T) {
       StdDraw.clear();
@@ -53,10 +59,10 @@ public class NBody {
       that does not include itself for the calcNetForceExertedByX
       and calcForceExertedByY methods */
 
-      for (int i = 0; i < 5; i ++) {
-        Body[] others = new Body[4];
+      for (int i = 0; i < numPlanets; i ++) {
+        Body[] others = new Body[numPlanets - 1];
         int index = 0;
-        for (int j = 0; j < 5; j ++) {
+        for (int j = 0; j < numPlanets; j ++) {
           if (j != i) {
             others[index] = bodies[j];
             index ++;
@@ -66,7 +72,7 @@ public class NBody {
         yForces[i] = bodies[i].calcNetForceExertedByY(others);
       }
 
-      for (int i = 0; i < 5; i ++) {
+      for (int i = 0; i < numPlanets; i ++) {
         bodies[i].update(dt, xForces[i], yForces[i]);
       }
 
