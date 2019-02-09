@@ -9,7 +9,7 @@ public class BodyExtreme {
 
   private static final double G = 6.67e-11;
 
-  public BodyExtreme(double xP, double yP, double xV,double yV, double m, String img) {
+  public BodyExtreme(double xP, double yP, double xV, double yV, double m, String img) {
     xxPos = xP;
     yyPos = yP;
     xxVel = xV;
@@ -36,6 +36,7 @@ public class BodyExtreme {
     double yyDist = b.yyPos - yyPos;
     return Math.sqrt(xxDist * xxDist + yyDist * yyDist);
   }
+
   public double calcForceExertedBy(BodyExtreme b) {
     double dist = calcDistance(b);
     return G * (mass * b.mass) / (dist * dist);
@@ -53,8 +54,8 @@ public class BodyExtreme {
 
   public double calcNetForceExertedByX(BodyExtreme[] bodies) {
     double netForce = 0;
-    for (BodyExtreme b: bodies) {
-      if (! b.equals(this)) {
+    for (BodyExtreme b : bodies) {
+      if (!b.equals(this)) {
         netForce += calcForceExertedByX(b);
       }
     }
@@ -63,8 +64,8 @@ public class BodyExtreme {
 
   public double calcNetForceExertedByY(BodyExtreme[] bodies) {
     double netForce = 0;
-    for (BodyExtreme b: bodies) {
-      if (! b.equals(this)) {
+    for (BodyExtreme b : bodies) {
+      if (!b.equals(this)) {
         netForce += calcForceExertedByY(b);
       }
     }
@@ -75,8 +76,8 @@ public class BodyExtreme {
   /* shipX is either -1 for left or 1 for right; same for shipY
    */
   public void update(double dt, double fX, double fY, int shipX, int shipY) {
-    double xxAcc = fX/mass;
-    double yyAcc = fY/mass;
+    double xxAcc = fX / mass;
+    double yyAcc = fY / mass;
     xxVel += xxAcc * dt;
     yyVel += yyAcc * dt;
     if (shipX != 0) {
@@ -88,6 +89,7 @@ public class BodyExtreme {
     xxPos += xxVel * dt;
     yyPos += yyVel * dt;
   }
+
   public void draw() {
     StdDraw.picture(xxPos, yyPos, "/images/" + imgFileName);
   }
