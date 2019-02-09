@@ -32,17 +32,27 @@ public class LinkedListDeque <T> {
     public void addFirst(T item) {
         size += 1;
         Node newFirst = new Node(item); //create new node
+        Node oldFirst = sentinal.next;
+        oldFirst.prev = newFirst;
+        newFirst.next = oldFirst;
         newFirst.prev = sentinal;
-        newFirst.next = sentinal.next;
         sentinal.next = newFirst;
 
     }
     public void addLast(T item) {
         size += 1;
-        Node newLast = new Node(item); //create new node
-        newLast.prev = sentinal.prev;
+        Node newLast = new Node(item);
+        Node oldLast = sentinal.prev;
+        oldLast.next = newLast;
+        newLast.prev = oldLast;
         newLast.next = sentinal;
-        sentinal.prev = newLast;
+
+
+/*      newLast.prev = sentinal.next.prev;
+        newLast.next = sentinal.next;
+        System.out.println(newLast.item + "^" + newLast.next.item + "^" + newLast.prev.item);
+        sentinal.next.prev = newLast;
+        */
     }
     public boolean isEmpty() {
         return size == 0;
@@ -58,17 +68,19 @@ public class LinkedListDeque <T> {
     }
     public T removeLast() {
         size -= 1;
-        Node l = sentinal.prev;
-        sentinal.prev.prev.next = sentinal;
-        sentinal.prev = sentinal.prev.prev;
-        return l.item;
+        Node oldLast = sentinal.prev;
+        Node newLast = oldLast.prev;
+        newLast.next = sentinal;
+        sentinal.prev = newLast;
+        return oldLast.item;
     }
     public T removeFirst() {
         size -= 1;
-        Node f = sentinal.next;
-        sentinal.next.next.prev = sentinal;
-        sentinal.next = sentinal.next.next;
-        return f.item;
+        Node oldFirst = sentinal.next;
+        Node newFirst = oldFirst.next;
+        newFirst.prev = sentinal;
+        sentinal.next = newFirst;
+        return oldFirst.item;
     }
     public T get(int index) {
         Node curr = sentinal.next;

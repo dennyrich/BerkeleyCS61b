@@ -27,23 +27,29 @@ public class ArrayDequeTest {
         }
 
         test.printDeque();
-        test.printNakedItems();
         System.out.println(test.get(2));
-
-
         System.out.println();
 
+        // now for the LinkedListDeque testing
+
         LinkedListDeque<Integer> testing = new LinkedListDeque<>();
-        testing.addFirst(2);
-        testing.addFirst(1);
+        testing.addFirst(5);
+        testing.printDeque();
+
         testing.addFirst(0);
-        System.out.println(testing.get(0) + " " + testing.get(1) + " " + testing.get(2));
-        /*
         testing.printDeque();
-        System.out.println(testing.removeFirst());
-        System.out.println(testing.removeLast());
+
+        testing.addFirst(-5);
         testing.printDeque();
-        */
+
+        testing.addLast(10);
+        testing.printDeque();
+        //testing remove
+        testing.removeFirst();
+        testing.removeLast();
+        testing.removeFirst();
+
+        testing.printDeque();
 
     }
 }
