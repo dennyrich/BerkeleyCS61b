@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class ArrayDequeTest {
     public static void main(String[] args) {
 //        ArrayDeque<Integer> test = new ArrayDeque<>();
@@ -29,7 +31,26 @@ public class ArrayDequeTest {
 //        System.out.println(test2.removeLast());
 //        System.out.println(test2);
 //        test2.printDeque();
+        ArrayDeque<Integer> test = new ArrayDeque<>();
+        for (int i = 0; i < 100; i++) {
+            test.addFirst(i);
+        }
+        for (int i = 99; i >= 0; i--) {
+            if (i < 35) {
+                System.out.println("---------------------------------------------");
+                test.printDeque();
+                System.out.println(test);
+            }
+            int val = test.removeFirst();
+            if (val != i) {
+                System.out.println("cheeseError" + val + " " + i);
+            }
+        }
+        System.out.println("****************************************");
         ArrayDeque<Integer> testing = new ArrayDeque<>();
+
+
+
 
         testing.addLast(0);
         testing.addLast(1);

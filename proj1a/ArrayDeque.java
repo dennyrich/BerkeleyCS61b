@@ -131,11 +131,11 @@ public class ArrayDeque<T> {
         T[] temp = (T[]) new Object[items.length / 3];
         int counter = 0;
         if (pointerF > pointerL) {
-            for (int i = 0; i < pointerL; i++) {
+            for (int i = pointerF; i < items.length; i++) {
                 temp[counter] = items[i];
                 counter++;
             }
-            for (int i = pointerF; i < items.length; i++) {
+            for (int i = 0; i < pointerL; i++) {
                 temp[counter] = items[i];
                 counter++;
             }
@@ -160,6 +160,6 @@ public class ArrayDeque<T> {
 //        for (T item: items) {
 //            result += item + " ";
 //        }
-//        return result + "\n pointerF: " + pointerF + " pointerL: " + pointerL;
+//        return result + "\n pointerF: " + pointerF + " pointerL: " + pointerL + " size: " + items.length;
 //    }
 }
