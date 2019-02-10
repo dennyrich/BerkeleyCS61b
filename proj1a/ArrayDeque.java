@@ -160,6 +160,7 @@ public class ArrayDeque<T> {
 //        for (T item: items) {
 //            result += item + " ";
 //        }
-//        return result + "\n pointerF: " + pointerF + " pointerL: " + pointerL + " size: " + items.length;
+//        return result + "\n pointerF: " + pointerF + " pointerL: "
+//        + pointerL + " size: " + items.length;
 //    }
 }
