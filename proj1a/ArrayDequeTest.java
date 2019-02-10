@@ -1,22 +1,7 @@
 public class ArrayDequeTest {
     public static void main(String[] args) {
         ArrayDeque<Integer> test = new ArrayDeque<>();
-        /*
-        test.addFirst(1);
-        test.addFirst(0);
-        test.addLast(2);
-        test.addLast(3);
-        test.addFirst(-1);
-        test.addFirst(-2);
-        test.addLast(4);
-        test.addLast(5);
-        test.addLast(6);
-        test.addLast(7);
-        test.addFirst(-3);
-        test.addFirst(-4);
-        test.addLast(8);
-        test.addLast(9);
-        */
+
         for (int i = 0; i <= 25; i ++) {
             test.addLast(i);
         }
@@ -25,31 +10,32 @@ public class ArrayDequeTest {
         for (int i = 0; i < 22; i ++) {
             test.removeFirst();
         }
-
+        ArrayDeque<Integer> tester = new ArrayDeque(test);
         test.printDeque();
+        tester.printDeque();
         System.out.println(test.get(2));
         System.out.println();
 
         // now for the LinkedListDeque testing
 
-        LinkedListDeque<Integer> testing = new LinkedListDeque<>();
-        testing.addFirst(5);
-        testing.printDeque();
+        linkTest();
 
-        testing.addFirst(0);
-        testing.printDeque();
+    }
+    public static void linkTest() {
+        LinkedListDeque<Integer> test = new LinkedListDeque<>();
 
-        testing.addFirst(-5);
-        testing.printDeque();
+        test.addFirst(4);
 
-        testing.addLast(10);
-        testing.printDeque();
-        //testing remove
-        testing.removeFirst();
-        testing.removeLast();
-        testing.removeFirst();
+        test.addFirst(5);
 
-        testing.printDeque();
+        test.addFirst(3);
+        test.addLast(7);
+        test.printDeque();
+
+        test.removeLast();
+        test.printDeque();
+
+
 
     }
 }

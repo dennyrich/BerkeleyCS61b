@@ -24,7 +24,8 @@ public class LinkedListDeque <T> {
         sentinal = new Node(null);
         sentinal.prev = sentinal;
         sentinal.next = sentinal;
-        for (int i = 0; i < size; i ++) {
+        size = 0;
+        for (int i = 0; i < other.size; i ++) {
             addLast((T) other.get(i));
         }
     }
@@ -37,7 +38,6 @@ public class LinkedListDeque <T> {
         newFirst.next = oldFirst;
         newFirst.prev = sentinal;
         sentinal.next = newFirst;
-
     }
     public void addLast(T item) {
         size += 1;
@@ -46,13 +46,6 @@ public class LinkedListDeque <T> {
         oldLast.next = newLast;
         newLast.prev = oldLast;
         newLast.next = sentinal;
-
-
-/*      newLast.prev = sentinal.next.prev;
-        newLast.next = sentinal.next;
-        System.out.println(newLast.item + "^" + newLast.next.item + "^" + newLast.prev.item);
-        sentinal.next.prev = newLast;
-        */
     }
     public boolean isEmpty() {
         return size == 0;
@@ -91,13 +84,6 @@ public class LinkedListDeque <T> {
         return curr.item;
     }
     public T getRecursive(int index) {
-        return getRHelper(sentinal.next, index);
-    }
-    private T getRHelper(Node curr, int index) {
-        if (curr == null || index == 0) {
-            return curr.item;
-        } else {
-            return getRHelper(curr.next, index - 1);
-        }
+        return null;
     }
 }

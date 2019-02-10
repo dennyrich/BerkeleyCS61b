@@ -16,6 +16,13 @@ public class ArrayDeque<T> {
         pointerF = 1;
         pointerL = 1;
     }
+    public ArrayDeque(ArrayDeque other) {
+        size = other.size;
+        pointerL = other.pointerL;
+        pointerF = other.pointerF;
+        items = (T[]) other.items;
+    }
+
     /* using circular implementation */
     public void addFirst(T item) {
         size += 1;
