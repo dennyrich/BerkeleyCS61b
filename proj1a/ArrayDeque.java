@@ -72,9 +72,6 @@ public class ArrayDeque<T> {
             return null;
         }
         size -= 1;
-        if (size < items.length / 3) {
-            resizeDown();
-        }
         T item = items[pointerL - 1];
         /* this moves pointer back to end if at 0 */
         if (pointerL == 0) {
@@ -116,7 +113,7 @@ public class ArrayDeque<T> {
     private void resizeUp() {
         T[] temp = (T[]) new Object[items.length + items.length / 2];
         int offset = temp.length - items.length;
-        for (int i = 0; i < pointerL; i ++) {
+        for (int i = 0; i < pointerL; i++) {
             temp[i] = items[i];
         }
         for (int i = pointerL; i < pointerL + offset; i++) {
@@ -161,5 +158,6 @@ public class ArrayDeque<T> {
             System.out.print(item + " ");
         }
         System.out.println();
+        System.out.println("pointerF: " + pointerF + " pointerL: " + pointerL);
     }
 }

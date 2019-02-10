@@ -9,26 +9,25 @@ public class ArrayDequeTest {
 
         test.printRawItems();
         System.out.println(test.removeLast() + " " + test.removeFirst());
-
-        ArrayDeque<Integer> test2 = new ArrayDeque<>();
-        test2.addFirst(5);
-        test2.addFirst(4);
-        test2.printDeque();
-
-        test2.removeFirst();
         test.printDeque();
 
-        test2.removeFirst();
-        test2.printDeque();
 
-        System.out.println(test2.removeFirst());
+        /*
+        ArrayDeque<Integer> test2 = new ArrayDeque<>();
+
+        test2.addFirst(0);
+        test2.addFirst(1);
+        test2.printRawItems();
+        System.out.println(test2.removeLast());
+        test2.printRawItems();
         test2.printDeque();
+        */
 
 
 
         // now for the LinkedListDeque testing
 
-        linkTest();
+        //linkTest();
 
     }
     public static void linkTest() {
