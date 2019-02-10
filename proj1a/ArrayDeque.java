@@ -72,13 +72,13 @@ public class ArrayDeque<T> {
             return null;
         }
         size -= 1;
-        T item = items[pointerL - 1];
         /* this moves pointer back to end if at 0 */
         if (pointerL == 0) {
             pointerL = items.length - 1;
         } else {
             pointerL -= 1;
         }
+        T item = items[pointerL];
         if (size < items.length / 4) {
             resizeDown();
         }
@@ -152,12 +152,13 @@ public class ArrayDeque<T> {
         items = temp;
     }
 
-    private void printRawItems() { // for testing only
-        System.out.print("Items (for testing only):");
+    @Override
+    public String toString() { // for testing only
+        //System.out.print("Items (for testing only):");
+        String result = "";
         for (T item: items) {
-            System.out.print(item + " ");
+            result += item + " ";
         }
-        System.out.println();
-        System.out.println("pointerF: " + pointerF + " pointerL: " + pointerL);
+        return result + "\n pointerF: " + pointerF + " pointerL: " + pointerL;
     }
 }

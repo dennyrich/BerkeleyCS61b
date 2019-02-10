@@ -7,21 +7,28 @@ public class ArrayDequeTest {
         }
         test.printDeque();
 
-        test.printRawItems();
         System.out.println(test.removeLast() + " " + test.removeFirst());
+
+
+        System.out.println(test.removeLast());
         test.printDeque();
+        System.out.println(test.removeLast());
+        System.out.println(test);
+        System.out.println(test.removeLast());
+        test.printDeque();
+        System.out.println(test.removeFirst());
+        System.out.println(test);
 
 
-        /*
+        System.out.println("__________________________________");
         ArrayDeque<Integer> test2 = new ArrayDeque<>();
 
         test2.addFirst(0);
         test2.addFirst(1);
-        test2.printRawItems();
+        System.out.println(test2);
         System.out.println(test2.removeLast());
-        test2.printRawItems();
+        System.out.println(test2);
         test2.printDeque();
-        */
 
 
 
