@@ -25,15 +25,12 @@ public class ArrayDequeTest {
         LinkedListDeque<Integer> test = new LinkedListDeque<>();
 
         test.addFirst(4);
-
-        test.addFirst(5);
-
+        test.printDeque();
         test.addFirst(3);
-        test.addLast(7);
-        test.printDeque();
+        test.addLast(5);
 
-        test.removeLast();
-        test.printDeque();
+        LinkedListDeque<Integer> test2 = new LinkedListDeque<>(test);
+        test2.printDeque();
 
 
 
