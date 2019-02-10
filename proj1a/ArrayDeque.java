@@ -51,6 +51,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
         size -= 1;
         T item = items[pointerF];
         /* this moves pointer back to 0 if at end */
@@ -65,11 +68,14 @@ public class ArrayDeque<T> {
         return item;
     }
     public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
         size -= 1;
         if (size < items.length / 3) {
             resizeDown();
         }
-        T item = items[pointerL];
+        T item = items[pointerL - 1];
         /* this moves pointer back to end if at 0 */
         if (pointerL == 0) {
             pointerL = items.length - 1;
@@ -96,50 +102,51 @@ public class ArrayDeque<T> {
         return items[i];
     }
     public void printDeque() {
-        for (int i = pointerF; i < items.length && i < (pointerF + size); i ++) {
+        for (int i = pointerF; i < items.length && i < (pointerF + size); i++) {
             System.out.print(items[i] + " ");
         }
-        if (! (pointerF < pointerL)) {  // this means that the array is "circular"
-           for (int i = 0; i < pointerL; i ++) {
-               System.out.print(items[i] + " ");
-           }
+        if (!(pointerF < pointerL)) {  // this means that the array is "circular"
+            for (int i = 0; i < pointerL; i++) {
+                System.out.print(items[i] + " ");
+            }
         }
         System.out.println();
     }
 
-    public void resizeUp() {
-        T[] temp = (T[]) new Object[items.length + items.length/2];
+    private void resizeUp() {
+        T[] temp = (T[]) new Object[items.length + items.length / 2];
         int offset = temp.length - items.length;
-        for (int i = 0; i < pointerL; i ++){
+        for (int i = 0; i < pointerL; i ++) {
             temp[i] = items[i];
         }
-        for (int i = pointerL; i < pointerL + offset; i ++) {
+        for (int i = pointerL; i < pointerL + offset; i++) {
             temp[i] = null;
         }
-        for (int i = pointerL + offset; i < temp.length ; i ++) {
+        for (int i = pointerL + offset; i < temp.length; i++) {
             temp[i] = items[i - offset];
         }
         items = temp;
         pointerF += offset;
     }
-    public void resizeDown() {
-        T[] temp = (T[]) new Object[items.length/3];
+
+    private void resizeDown() {
+        T[] temp = (T[]) new Object[items.length / 3];
         int counter = 0;
         if (pointerF > pointerL) {
             for (int i = 0; i < pointerL; i++) {
                 temp[counter] = items[i];
-                counter ++;
+                counter++;
             }
             for (int i = pointerF; i < items.length; i++) {
                 temp[counter] = items[i];
-                counter ++;
+                counter++;
             }
             pointerF = 0;
             pointerL = counter;
         } else {
-            for (int i = pointerF; i < pointerL; i ++) {
+            for (int i = pointerF; i < pointerL; i++) {
                 temp[counter] = items[i];
-                counter ++;
+                counter++;
             }
             pointerF = 0;
             pointerL = counter;
@@ -147,7 +154,8 @@ public class ArrayDeque<T> {
 
         items = temp;
     }
-    public void printNakedItems() { // for testing only
+
+    private void printRawItems() { // for testing only
         System.out.print("Items (for testing only):");
         for (T item: items) {
             System.out.print(item + " ");
