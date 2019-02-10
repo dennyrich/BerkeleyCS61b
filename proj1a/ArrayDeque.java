@@ -1,4 +1,5 @@
 public class ArrayDeque<T> {
+    private static final int INITIAL_SIZE = 8;
     private T[] items;
     private int size;
     private int pointerF; //first pointer
@@ -9,7 +10,7 @@ public class ArrayDeque<T> {
 
     public ArrayDeque() {
         size = 0;
-        items = (T[]) new Object[8];
+        items = (T[]) new Object[INITIAL_SIZE];
         for (T i: items) {
             i = null;
         }
@@ -62,7 +63,7 @@ public class ArrayDeque<T> {
         } else {
             pointerF += 1;
         }
-        if (size < items.length / 4) {
+        if (size < items.length / 4 && size > INITIAL_SIZE) {
             resizeDown();
         }
         return item;
@@ -79,7 +80,7 @@ public class ArrayDeque<T> {
             pointerL -= 1;
         }
         T item = items[pointerL];
-        if (size < items.length / 4) {
+        if (size < items.length / 4 && size > INITIAL_SIZE) {
             resizeDown();
         }
         return item;
@@ -152,13 +153,13 @@ public class ArrayDeque<T> {
         items = temp;
     }
 
-    @Override
-    public String toString() { // for testing only
-        //System.out.print("Items (for testing only):");
-        String result = "";
-        for (T item: items) {
-            result += item + " ";
-        }
-        return result + "\n pointerF: " + pointerF + " pointerL: " + pointerL;
-    }
+//    @Override
+//    public String toString() { // for testing only
+//        //System.out.print("Items (for testing only):");
+//        String result = "";
+//        for (T item: items) {
+//            result += item + " ";
+//        }
+//        return result + "\n pointerF: " + pointerF + " pointerL: " + pointerL;
+//    }
 }
