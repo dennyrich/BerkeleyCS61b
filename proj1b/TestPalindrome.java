@@ -28,6 +28,12 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("flake", one));
         assertTrue(palindrome.isPalindrome("flabke", one));
 
+        /*
+        CharacterComparator N = new OffByN(5);
+        assertTrue(palindrome.isPalindrome("abhgf", N));
+        */
+
+
 
     }
 }
