@@ -6,11 +6,13 @@ public class TestOffByOne {
     // new ones, or the autograder might be upset.
     static CharacterComparator offByOne = new OffByOne();
 
+    @Test
     public void testEqualChars() {
         assertTrue(offByOne.equalChars('a', 'b'));
         assertTrue(offByOne.equalChars('y', 'x'));
         assertFalse(offByOne.equalChars('a', 'z'));
         assertFalse(offByOne.equalChars('a', 'e'));
         assertTrue(offByOne.equalChars('&', '%'));
+        assertEquals(offByOne.equalChars('a', 'b'), true);
     }
 }

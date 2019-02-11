@@ -22,6 +22,7 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("kayak"));
         assertTrue(palindrome.isPalindrome("redivvider"));
         assertTrue(palindrome.isPalindrome("a"));
+        assertTrue(palindrome.isPalindrome(""));
 
         CharacterComparator one = new OffByOne();
         assertFalse(palindrome.isPalindrome("kayak", one));
