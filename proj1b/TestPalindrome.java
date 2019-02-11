@@ -23,11 +23,14 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("redivvider"));
         assertTrue(palindrome.isPalindrome("a"));
         assertTrue(palindrome.isPalindrome(""));
-
+        assertTrue(palindrome.isPalindrome("NOON"));
+        assertFalse(palindrome.isPalindrome("PERSIFLAGE"));
         CharacterComparator one = new OffByOne();
         assertFalse(palindrome.isPalindrome("kayak", one));
         assertTrue(palindrome.isPalindrome("flake", one));
         assertTrue(palindrome.isPalindrome("flabke", one));
+        assertTrue(palindrome.isPalindrome("FLAKE", one));
+        assertFalse(palindrome.isPalindrome("RANDOM", one));
 
         /*
         CharacterComparator N = new OffByN(5);
