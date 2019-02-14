@@ -4,27 +4,27 @@ ArrayDeque:
 
 Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
 
-A: 
+A: I could have made a helper function to using wrap function. There was a simple way I could have used this function without if statements. 
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A: I was proud that I used circular implementation so that it could gain a small bit of efficiency. 
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: The pointer first and pointer last did not work the same because the last pointer did not have an item while the pointer first did have an item.
 
 Q: What did you learn by talking to your partner about writing ArrayDeque?
 
-A:
+A: I learned there are many ways to implement the functions. My partner had different helper functions and the required functions themselves worked differently. It is interesting though that a user would have no idea which implementation	he/she is using. 
 
 Q: What do you wish you would have known before writing ArrayDeque, if anything?
 
-A:
+A: I learned that I could have simply used the get function when resizing instead of using complicated methods using the array indexes. 
 
 Q: If you wrote ArrayDeque again, what would you do differently, if anything?
 
-A:
+A: I would have made functions simpler, like using the modulus function to wrap the index around.
 
 -----
 
@@ -32,27 +32,27 @@ LinkedListDeque:
 
 Q: Give an example of at least one idea from the staff solution that would have made your solution better (if any).
 
-A: 
+A: I did not need a helper for getRecursive. This would have made it simpler.
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A: I am proud that I was I was able to complete the data structure. In theory, someone else could use my data structure now. 
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: My print function used get, and I thought this would be inefficient because it had to iteratively get the item each time.
 
 Q: What did you learn by talking to your partner about writing LinkedListDeque?
 
-A:
+A: I reinforced the idea that the linked list had no underlying preexisting data structure. 
 
 Q: What do you wish you would have known before writing LinkedListDeque, if anything?
 
-A:
+A: I wished that I understood what the sentinel was. This made me take a lot longer on this project because I did not learn about the sentinel until the end.
 
 Q: If you wrote LinkedListDeque again, what would you do differently, if anything?
 
-A:
+A: I would have printed the deque without using the get function. Instead, I would have used iteration again. 
 
 -----
 
@@ -60,4 +60,4 @@ Meta:
 
 Q: Did you like this design review process? Anything we should do differently next time?
 
-A: 
+A: Yes, I liked the review process. I think it is very important to reflect. I also think it cements ideas into my head about data structures.
