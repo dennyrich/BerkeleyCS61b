@@ -25,7 +25,7 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome(""));
         assertTrue(palindrome.isPalindrome("NOON"));
         assertFalse(palindrome.isPalindrome("PERSIFLAGE"));
-        assertTrue(palindrome.isPalindrome("KayaK"));
+        assertFalse(palindrome.isPalindrome("Kayak"));
         assertFalse(palindrome.isPalindrome("PErSIFLaGE"));
 
 
@@ -36,7 +36,7 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome("FLAKE", one));
         assertFalse(palindrome.isPalindrome("RANDOM", one));
         assertFalse(palindrome.isPalindrome("RanDoM", one));
-        assertTrue(palindrome.isPalindrome("FLaKE", one));
+        assertFalse(palindrome.isPalindrome("FLakE", one));
 
         /*
         CharacterComparator N = new OffByN(5);
