@@ -61,3 +61,5 @@ Meta:
 Q: Did you like this design review process? Anything we should do differently next time?
 
 A: Yes, I liked the review process. I think it is very important to reflect. I also think it cements ideas into my head about data structures.
+
+ 
