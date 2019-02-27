@@ -92,7 +92,7 @@ public class TestClorus {
         expected = new Action(Action.ActionType.MOVE, Direction.TOP);
 
         assertEquals(expected, actual);
- 
+
 
 
     }
