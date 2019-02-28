@@ -9,20 +9,23 @@ public class GuitarString {
 
     /* Buffer for storing sound data. */
     private BoundedQueue<Double> buffer;
+    private int capacity;
 
     /* Create a guitar string of the given frequency.  */
     public GuitarString(double frequency) {
-        buffer = new ArrayRingBuffer<Double>((int) Math.round((SR / frequency)));
+        capacity = (int) Math.round((SR / frequency));
+        buffer = new ArrayRingBuffer<Double>(capacity);
     }
 
 
     /* Pluck the guitar string by replacing the buffer with white noise. */
     public void pluck() {
 
-        for (int i = 0; i < buffer.fillCount(); i++) {
-
-            buffer.enqueue(Math.random() - 0.5);
+        for (int i = 0; i < buffer.fillCount() ; i++) {
             buffer.dequeue();
+        }
+        for (int i = 0; i < capacity; i++) {
+            buffer.enqueue(Math.random() - 0.5);
         }
 
     }
@@ -31,10 +34,8 @@ public class GuitarString {
      * the Karplus-Strong algorithm.
      */
     public void tic() {
-        for (int i = 0; i < buffer.fillCount(); i++) {
-            double newAddition = ((buffer.dequeue() + buffer.peek()) / 2.0) * DECAY;
-            buffer.enqueue(newAddition);
-        }
+        double newAddition = ((buffer.dequeue() + buffer.peek()) / 2.0) * DECAY;
+        buffer.enqueue(newAddition);
     }
 
     /* Return the double at the front of the buffer. */
