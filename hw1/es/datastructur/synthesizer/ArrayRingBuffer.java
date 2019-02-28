@@ -35,14 +35,46 @@ public class ArrayRingBuffer<T>  implements BoundedQueue<T> {
      */
 
     @Override
+    public Iterator<T> iterator() {
+        return new BoundedQueueIterator<T>() ;
+    }
+
+    private class BoundedQueueIterator<T> implements Iterator<T> {
+        @Override
+        public boolean hasNext() {
+            return fillCount < capacity;
+        }
+
+        @Override
+        public T next() {
+            return (T) dequeue();
+        }
+    }
+
+    @Override
     public void enqueue(T x) {
-        if (fillCount == capacity) {
-            throw new ArrayIndexOutOfBoundsException("cheese Error");
+        if (!iterator().hasNext()) {
+            throw new RuntimeException("Ring Buffer overflow");
         }
         rb[last] = x;
         last = (last + 1) % capacity;
         fillCount++;
 
+    }
+    @Override
+    public boolean equals(Object other) {
+        try {
+            ArrayRingBuffer<T> copy = (ArrayRingBuffer<T>) other;
+            if (copy.fillCount() != this.fillCount) {
+                return false;
+            }
+            for (int i = first; i < last; i++) {
+                if (rb[i] != copy.dequeue()) {
+                    return false;
+                }
+            }
+        } catch(ClassCastException e){}
+        return true;
     }
 
     /**
@@ -77,7 +109,7 @@ public class ArrayRingBuffer<T>  implements BoundedQueue<T> {
 
     @Override
     public int fillCount() {
-        return fillCount();
+        return fillCount;
     }
 
     // TODO: When you get to part 4, implement the needed code to support

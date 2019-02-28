@@ -12,7 +12,7 @@ public class GuitarString {
 
     /* Create a guitar string of the given frequency.  */
     public GuitarString(double frequency) {
-        //this.buffer = new ArrayRingBuffer<Double>();
+        buffer = new ArrayRingBuffer<Double>((int) (SR/frequency));
         // TODO: Create a buffer with capacity = SR / frequency. You'll need to
         //       cast the result of this division operation into an int. For
         //       better accuracy, use the Math.round() function before casting.
