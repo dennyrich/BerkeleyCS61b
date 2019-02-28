@@ -21,7 +21,7 @@ public class GuitarString {
     /* Pluck the guitar string by replacing the buffer with white noise. */
     public void pluck() {
 
-        for (int i = 0; i < buffer.fillCount() ; i++) {
+        for (int i = 0; i < buffer.fillCount(); i++) {
             buffer.dequeue();
         }
         for (int i = 0; i < capacity; i++) {
@@ -40,9 +40,9 @@ public class GuitarString {
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        if (buffer.isEmpty()) {
-            throw new RuntimeException("Ring Buffer Overflow");
-        }
+        //if (buffer.isEmpty()) {
+            //throw new RuntimeException("Ring Buffer Underflow");
+        //}
         return buffer.peek();
     }
 }
