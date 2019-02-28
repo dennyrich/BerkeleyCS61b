@@ -82,7 +82,7 @@ public class ArrayRingBuffer<T>  implements BoundedQueue<T> {
     @Override
     public T dequeue() {
         if (fillCount < 1) {
-            throw new RuntimeException("Ring Buffer underflow");
+            throw new RuntimeException("Ring buffer underflow");
         }
         fillCount--;
         T firstItem = rb[first];
