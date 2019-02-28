@@ -16,5 +16,6 @@ public class TestArrayRingBuffer {
         //arb.enqueue(6);
         assertEquals((Integer) 6, arb.dequeue());
         assertEquals((Integer) 7, arb.dequeue());
+
     }
 }
