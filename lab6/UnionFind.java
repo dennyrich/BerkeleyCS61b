@@ -34,10 +34,11 @@ public class UnionFind {
         return -1 * a;
         */
 
-        while (parents[v1] > 0) {
-            v1 = parents[v1];
+        if (parents[v1] < 0) {
+            return v1;
+        } else {
+            return sizeOf(parents[v1]);
         }
-        return sizes[v1];
     }
 
     /* Returns the parent of v1. If v1 is the root of a tree, returns the
