@@ -1,46 +1,59 @@
 public class UnionFind {
 
-    private int[] holder;
+    private int[] parents;
+    private int[] sizes;
 
     /* Creates a UnionFind data structure holding n vertices. Initially, all
        vertices are in disjoint sets. */
     public UnionFind(int n) {
-        holder = new int[n];
-        for (int i = 0; i < holder.length; i++) {
-            holder[i] = -1; //all are disjointed, size = 1
+        parents = new int[n];
+        sizes = new int[n];
+        for (int i = 0; i < parents.length; i++) {
+            parents[i] = -1; //all are disjointed, size = 1
+            sizes[i] = 1;
         }
     }
 
     /* Throws an exception if v1 is not a valid index. */
     private void validate(int vertex) {
-        if (vertex > holder.length) {
+        if (vertex > parents.length) {
             throw new IllegalArgumentException("Index out of bounds");
         }
-        else if (vertex < 0 && vertex > -1 * holder.length) {
+        else if (vertex < 0) {
             throw new IllegalArgumentException("the size cannot be this big");
         }
     }
 
     /* Returns the size of the set v1 belongs to. */
     public int sizeOf(int v1) {
+        /*
         int a = v1;
         while (a > 0) {
             a = parent(a);
         }
         return -1 * a;
+        */
+
+        while (parents[v1] > 0) {
+            v1 = parents[v1];
+        }
+        return sizes[v1];
     }
 
     /* Returns the parent of v1. If v1 is the root of a tree, returns the
        negative size of the tree for which v1 is the root. */
     public int parent(int v1) {
-        return holder[v1];
+        if (parents[v1] < 0) {
+            return -sizes[v1];
+        }
+        return parents[v1];
     }
 
     /* Returns true if nodes v1 and v2 are connected. */
     public boolean connected(int v1, int v2) {
         validate(v1);
         validate(v2);
-        return find(v1) == find(v2);
+        return find(v1) == find(v2) && (v1 != -1 && v2 != -1);
     }
 
     /* Connects two elements v1 and v2 together. v1 and v2 can be any valid 
@@ -57,15 +70,16 @@ public class UnionFind {
             larger = v2;
             smaller = v1;
         }
-        holder[find(smaller)] = holder[find(larger)];
+        sizes[find(larger)] += sizes[find(smaller)];
+        parents[find(smaller)] = parents[find(larger)];
     }
 
     /* Returns the root of the set V belongs to. Path-compression is employed
        allowing for fast search-time. */
     public int find(int vertex) {
         int v = vertex;
-        while (parent(v) > 0) {
-            v = parent(v);
+        while (parents[v] > 0) {
+            v = parents[v];
         }
         return v;
     }
