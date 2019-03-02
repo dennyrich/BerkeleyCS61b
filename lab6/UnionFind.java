@@ -33,9 +33,9 @@ public class UnionFind {
         }
         return -1 * a;
         */
-
+        validate(v1);
         if (parents[v1] < 0) {
-            return v1;
+            return sizes[v1];
         } else {
             return sizeOf(parents[v1]);
         }
@@ -44,6 +44,7 @@ public class UnionFind {
     /* Returns the parent of v1. If v1 is the root of a tree, returns the
        negative size of the tree for which v1 is the root. */
     public int parent(int v1) {
+        validate(v1);
         if (parents[v1] < 0) {
             return -sizes[v1];
         }
@@ -64,6 +65,8 @@ public class UnionFind {
        change the sets but may alter the internal structure of the data. */
     public void union(int v1, int v2) {
         int smaller, larger;
+        validate(v1);
+        validate(v1);
         if (sizeOf(v1) > sizeOf(v2)) {
             larger = v1;
             smaller = v2;
@@ -72,17 +75,19 @@ public class UnionFind {
             smaller = v1;
         }
         sizes[find(larger)] += sizes[find(smaller)];
-        parents[find(smaller)] = parents[find(larger)];
+        parents[find(smaller)] = find(larger);
     }
 
     /* Returns the root of the set V belongs to. Path-compression is employed
        allowing for fast search-time. */
     public int find(int vertex) {
-        int v = vertex;
-        while (parents[v] > 0) {
-            v = parents[v];
+        validate(vertex);
+        if (parents[vertex] < 0) {
+            return vertex;
         }
-        return v;
+        else {
+            return find(parents[vertex]);
+        }
     }
 
 }
