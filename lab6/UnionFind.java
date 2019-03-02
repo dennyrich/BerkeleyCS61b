@@ -67,6 +67,9 @@ public class UnionFind {
         int smaller, larger;
         validate(v1);
         validate(v1);
+        if (v1 == v2) {
+            return
+        }
         if (sizeOf(v1) > sizeOf(v2)) {
             larger = v1;
             smaller = v2;
