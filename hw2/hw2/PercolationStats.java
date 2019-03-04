@@ -70,11 +70,9 @@ public class PercolationStats {
         while (!test.percolates()) {
             index = StdRandom.uniform(N * N - 1);
             int row = index / N;
-            int col = index % 10;
+            int col = index % N;
             if (!test.isOpen(row, col)) {
                 test.open(row, col);
-            } else {
-                index = index = StdRandom.uniform(N * N - 1);
             }
         }
 
