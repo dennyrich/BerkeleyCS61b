@@ -91,6 +91,9 @@ public class Percolation {
     }
 
     public boolean percolates() {
+        if (N == 1) {
+            return isOpens[0];
+        }
         return (percolateTracker.connected(0, numSquares - 1)) && numOfOpenSites > 1;
     }
 

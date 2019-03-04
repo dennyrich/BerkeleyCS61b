@@ -1,7 +1,7 @@
 package hw2;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
@@ -37,12 +37,12 @@ public class PercolationStats {
 
     // low endpoint of 95% confidence interval
     public double confidenceLow() {
-        return mean() - 1.96 / Math.sqrt(T);
+        return mean() - 1.96 * stddev() / Math.sqrt(T);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHigh() {
-        return mean() + 1.96 / Math.sqrt(T);
+        return mean() + 1.96 * stddev() / Math.sqrt(T);
     }
 
     private double trial() {
