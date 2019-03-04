@@ -71,7 +71,7 @@ public class PercolationStats {
             index = StdRandom.uniform(N * N - 1);
             int row = index / N;
             int col = index % 10;
-            if (test.isOpen(row, col)) {
+            if (!test.isOpen(row, col)) {
                 test.open(row, col);
             }
         }
