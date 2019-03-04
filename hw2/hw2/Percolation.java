@@ -22,10 +22,10 @@ public class Percolation {
         // unions entire top row
 
         //
-        for (int j = 1; j < N; j++) {
-            keys.union(j, 0);
-            percolateTracker.union(j, 0);
-            percolateTracker.union(numSquares - N, numSquares - j); //from
+        for (int col = 1; col < N; col++) {
+            keys.union(col, 0);
+            percolateTracker.union(col, 0);
+            percolateTracker.union(numSquares - N, numSquares - col); //from
         }
         isOpens = new boolean[numSquares];
         numOfOpenSites = 0;
@@ -91,7 +91,7 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        return (percolateTracker.connected(0, numSquares - 1));
+        return (percolateTracker.connected(0, numSquares - 1)) && numOfOpenSites > 1;
     }
 
     private void validate(int row, int col) {

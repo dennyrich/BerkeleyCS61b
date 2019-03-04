@@ -1,6 +1,7 @@
 package hw2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
@@ -9,7 +10,7 @@ public class PercolationStats {
     private int N;
     private int T;
     private double[] trialResults;
-    PercolationFactory pf;
+    private PercolationFactory pf;
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N < 0 || T < 0) {
@@ -46,13 +47,13 @@ public class PercolationStats {
 
     private double trial() {
         Percolation test = pf.make(N);
-
-        ArrayList<Integer> available = new ArrayList<>(N * N);
+        /*
+        List<Integer> available = new ArrayList<>(N * N);
         for (int i = 0; i < N * N; i++) {
             available.add(i);
         }
         int index;
-        int runs = 0;
+
         while (!test.percolates()) {
             if (available.size() > 0) {
                 index = StdRandom.uniform(available.size());
@@ -63,10 +64,22 @@ public class PercolationStats {
             int item = available.get(index);
             available.remove(index);
             test.open(item / N, item % N);
-            runs++;
+        }
+        */
+        int index;
+        boolean blocked;
+        while (!test.percolates()) {
+            blocked = true;
+            while (blocked) {
+                index = StdRandom.uniform(N * N - 1);
+                if (!test.isOpen(index / N, index % N)) {
+                    test.open(index / N, index % N);
+                    blocked = false;
+                }
+            }
         }
 
         //test.printGrid();
-        return runs;
+        return test.numberOfOpenSites() /  (double) (N * N);
     }
 }
