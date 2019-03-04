@@ -54,19 +54,19 @@ public class PercolationStats {
         int index;
         int runs = 0;
         while (!test.percolates()) {
-            index = StdRandom.uniform(available.size());
+            if (available.size() > 0) {
+                index = StdRandom.uniform(available.size());
+            } else {
+                index = 0;
+            }
+
             int item = available.get(index);
             available.remove(index);
             test.open(item / N, item % N);
             runs++;
         }
 
-        test.printGrid();
+        //test.printGrid();
         return runs;
-    }
-    public static void main(String[] args) {
-        PercolationStats experiment = new PercolationStats(10, 30, new PercolationFactory());
-        System.out.println(experiment.mean() + " " + experiment.stddev());
-
     }
 }

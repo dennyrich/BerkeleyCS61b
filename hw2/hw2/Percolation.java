@@ -117,6 +117,7 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
+        /*
         Percolation test = new Percolation(5);
         for (int j = 0; j < 3; j++) {
             test.open(j, 0);
@@ -127,6 +128,10 @@ public class Percolation {
         }
         System.out.println(test.percolates());
         //test.printGrid();
+        */
+
+        PercolationStats experiment = new PercolationStats(10, 30, new PercolationFactory());
+        System.out.println(experiment.mean() + " " + experiment.stddev());
     }
 
 }
