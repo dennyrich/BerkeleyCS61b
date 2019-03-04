@@ -67,17 +67,12 @@ public class PercolationStats {
         }
         */
         int index;
-        boolean blocked;
         while (!test.percolates()) {
-            blocked = true;
-            while (blocked) {
-                index = StdRandom.uniform(N * N - 1);
-                int row = index / N;
-                int col = index % 10;
-                if (!test.isOpen(row, col)) {
-                    test.open(row, col);
-                    blocked = false;
-                }
+            index = StdRandom.uniform(N * N - 1);
+            int row = index / N;
+            int col = index % 10;
+            if (test.isOpen(row, col)) {
+                test.open(row, col);
             }
         }
 
