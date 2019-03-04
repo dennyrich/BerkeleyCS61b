@@ -13,7 +13,7 @@ public class PercolationStats {
     private PercolationFactory pf;
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
-        if (N < 0 || T < 0) {
+        if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException("number of trials and grid size must be positive");
         }
         this.N = N;
@@ -72,8 +72,10 @@ public class PercolationStats {
             blocked = true;
             while (blocked) {
                 index = StdRandom.uniform(N * N - 1);
-                if (!test.isOpen(index / N, index % N)) {
-                    test.open(index / N, index % N);
+                int row = index / N;
+                int col = index % 10;
+                if (!test.isOpen(row, col)) {
+                    test.open(row, col);
                     blocked = false;
                 }
             }
