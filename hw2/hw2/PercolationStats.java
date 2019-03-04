@@ -47,36 +47,18 @@ public class PercolationStats {
 
     private double trial() {
         Percolation test = pf.make(N);
-        /*
-        List<Integer> available = new ArrayList<>(N * N);
-        for (int i = 0; i < N * N; i++) {
-            available.add(i);
-        }
-        int index;
 
-        while (!test.percolates()) {
-            if (available.size() > 0) {
-                index = StdRandom.uniform(available.size());
-            } else {
-                index = 0;
-            }
-
-            int item = available.get(index);
-            available.remove(index);
-            test.open(item / N, item % N);
-        }
-        */
         int index;
         while (!test.percolates()) {
-            index = StdRandom.uniform(N * N - 1);
-            int row = index / N;
-            int col = index % N;
-            if (!test.isOpen(row, col)) {
-                test.open(row, col);
-            }
+            int indexRow = StdRandom.uniform(N - 1);
+            int indexColum = StdRandom.uniform(N - 1)
+            //int col = index % N;
+            test.open(indexRow, indexColum);
+//            if (!test.isOpen(indexRow, indexColum)) {
+//                test.open(indexRow, indexColum);
+//            }
         }
 
-        //test.printGrid();
         return test.numberOfOpenSites() /  (double) (N * N);
     }
 }
