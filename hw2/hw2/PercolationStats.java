@@ -6,8 +6,8 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    int N;
-    int T;
+    private int N;
+    private int T;
     private double[] trialResults;
     PercolationFactory pf;
     // perform T independent experiments on an N-by-N grid
@@ -20,7 +20,7 @@ public class PercolationStats {
         this.pf = pf;
         trialResults = new double[T];
         for (int i = 0; i < T; i++) {
-            trialResults[i] = trial(N);
+            trialResults[i] = trial();
         }
     }
 
@@ -44,7 +44,7 @@ public class PercolationStats {
         return mean() + 1.96 / Math.sqrt(T);
     }
 
-    private double trial(int N) {
+    private double trial() {
         Percolation test = pf.make(N);
 
         ArrayList<Integer> available = new ArrayList<>(N * N);

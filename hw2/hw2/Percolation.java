@@ -6,6 +6,7 @@ public class Percolation {
     private int N;  //sets dimension of grid
     private int numSquares;
     private WeightedQuickUnionUF keys;  //0 through N^2 - 1
+    private WeightedQuickUnionUF percolateTracker;
     private boolean[] isOpens;
     private int numOfOpenSites;
     private boolean percolated;
@@ -17,11 +18,14 @@ public class Percolation {
         this.N = N;
         numSquares = N * N;
         keys = new WeightedQuickUnionUF(numSquares);
+        percolateTracker = new WeightedQuickUnionUF(numSquares);
         // unions entire top row
 
         //
         for (int j = 1; j < N; j++) {
             keys.union(j, 0);
+            percolateTracker.union(j, 0);
+            percolateTracker.union(numSquares - N, numSquares - j); //from
         }
         isOpens = new boolean[numSquares];
         numOfOpenSites = 0;
@@ -29,6 +33,9 @@ public class Percolation {
     }
 
     public void open(int row, int col) {
+        if (isOpen(row, col)) {
+            return;
+        }
         numOfOpenSites++;
         int key = xyTo1D(row, col);
         isOpens[key] = true;
@@ -59,6 +66,7 @@ public class Percolation {
         for (int i: adjacentKeys) {
             if (i >= 0 && isOpens[i]) {
                 keys.union(key, i);
+                percolateTracker.union(key, i);
             }
         }
         // checks to see if opened key is on bottom and connected to unioned top row
@@ -83,7 +91,7 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        return percolated;
+        return (percolateTracker.connected(0, numSquares - 1));
     }
 
     private void validate(int row, int col) {
