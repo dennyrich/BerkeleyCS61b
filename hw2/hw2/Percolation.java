@@ -96,7 +96,7 @@ public class Percolation {
         return row * N + col;
     }
 
-    public void printGrid() {
+    private void printGrid() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 System.out.print(getSymbol(i, j) + " ");
