@@ -23,7 +23,7 @@ public class Percolation {
 
         //
         for (int col = 1; col < N; col++) {
-            keys.union(col, 0);
+            //keys.union(col, 0);
             percolateTracker.union(col, 0);
             percolateTracker.union(numSquares - N, numSquares - col); //from
         }
@@ -40,6 +40,7 @@ public class Percolation {
         int key = xyTo1D(row, col);
         isOpens[key] = true;
 
+        // determine values of keys surrounding key of (row, col)
         int keyLeft, keyRight, keyAbove, keyBelow;
         if (col == 0) {
             keyLeft = -1;
@@ -69,12 +70,6 @@ public class Percolation {
                 percolateTracker.union(key, i);
             }
         }
-        // checks to see if opened key is on bottom and connected to unioned top row
-        if (row == N - 1) {
-            if (keys.connected(key, 0)) {
-                percolated = true;
-            }
-        }
     }
 
     public boolean isOpen(int row, int col) {
@@ -83,7 +78,7 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {
         int key = xyTo1D(row, col);
-        return isOpens[key] && keys.connected(key, 0);
+        return isOpens[key] && percolateTracker.connected(key, 0);
     }
 
     public int numberOfOpenSites() {

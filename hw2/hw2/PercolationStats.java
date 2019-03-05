@@ -67,16 +67,18 @@ public class PercolationStats {
         }
         */
         int index;
+        int open = 0;
         while (!test.percolates()) {
             index = StdRandom.uniform(N * N - 1);
             int row = index / N;
             int col = index % N;
-
-            test.open(row, col);
-
+            if (!test.isOpen(row, col)) {
+                test.open(row, col);
+                open++;
+            }
         }
 
         //test.printGrid();
-        return test.numberOfOpenSites() /  (double) (N * N);
+        return open /  (double) (N * N);
     }
 }
