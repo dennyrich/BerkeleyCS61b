@@ -23,7 +23,7 @@ public class Percolation {
 
         //
         for (int col = 1; col < N; col++) {
-            //keys.union(col, 0);
+            keys.union(col, 0);
             percolateTracker.union(col, 0);
             percolateTracker.union(numSquares - N, numSquares - col); //from
         }
@@ -78,7 +78,7 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {
         int key = xyTo1D(row, col);
-        return isOpens[key] && percolateTracker.connected(key, 0);
+        return isOpens[key] && keys.connected(key, 0);
     }
 
     public int numberOfOpenSites() {
