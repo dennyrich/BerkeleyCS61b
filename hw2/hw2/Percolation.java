@@ -1,5 +1,6 @@
 package hw2;
 
+import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -19,9 +20,9 @@ public class Percolation {
         numSquares = N * N;
         keys = new WeightedQuickUnionUF(numSquares);
         percolateTracker = new WeightedQuickUnionUF(numSquares);
+
         // unions entire top row
 
-        //
         for (int col = 1; col < N; col++) {
             keys.union(col, 0);
             percolateTracker.union(col, 0);
@@ -123,21 +124,10 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        /*
-        Percolation test = new Percolation(5);
-        for (int j = 0; j < 3; j++) {
-            test.open(j, 0);
-        }
-        test.open(2, 1);
-        for (int i = 2; i < 5; i++) {
-            test.open(i, 1);
-        }
-        System.out.println(test.percolates());
-        //test.printGrid();
-        */
 
         PercolationStats experiment = new PercolationStats(10, 30, new PercolationFactory());
         System.out.println(experiment.mean() + " " + experiment.stddev());
+
     }
 
 }

@@ -69,7 +69,7 @@ public class PercolationStats {
         int index;
         int open = 0;
         while (!test.percolates()) {
-            index = StdRandom.uniform(N * N - 1);
+            index = StdRandom.uniform(N * N);
             int row = index / N;
             int col = index % N;
             if (!test.isOpen(row, col)) {
