@@ -34,14 +34,17 @@ public class BSTMap<K, V> implements Map61B<K, V> {
 
     @Override
     public boolean containsKey(K key) {
-        return containsHelper(top);
+        return containsHelper(top, key);
     }
-    private boolean containsHelper(Node n) {
+    private boolean containsHelper(Node n, K key) {
         if (n.left == null && n.right == null) {
             return false;
         }
+        else if (n.key.equals(key)) {
+            return true;
+        }
         else {
-            return containsHelper(n.left) || containsHelper(n.right);
+            return containsHelper(n.left, key) || containsHelper(n.right, key);
         }
     }
 
