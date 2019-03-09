@@ -37,7 +37,7 @@ public class BSTMap<K, V> implements Map61B<K, V> {
         return containsHelper(top, key);
     }
     private boolean containsHelper(Node n, K key) {
-        if (n.left == null && n.right == null) {
+        if (n == null) {
             return false;
         }
         else if (n.key.equals(key)) {
@@ -53,15 +53,16 @@ public class BSTMap<K, V> implements Map61B<K, V> {
         return getHelper(top, (Comparable<K>) key);
     }
     private V getHelper(Node n, Comparable<K> cc) {
+        if (n == null) {
+            return null;
+        }
         int comparison = cc.compareTo((K) n.key);
         if (comparison == 0) {
             return (V) n.value;
         } else if (comparison > 0) {
             return (V) getHelper(n.right, cc);
-        } else if (comparison < 0) {
-            return (V) getHelper(n.left, cc);
         } else {
-            return null;
+            return (V) getHelper(n.left, cc);
         }
     }
 
@@ -72,17 +73,21 @@ public class BSTMap<K, V> implements Map61B<K, V> {
 
     @Override
     public void put(K key, V value) {
-        Comparable<K> comp = (Comparable<K>) key;
-        Node n = top;
-        while (n != null) {
-            int comparison = comp.compareTo((K) n.key);
-            if (comparison > 0) {
-                n = n.right;
-            } else if (comparison < 0) {
-               n = n.right;
-            }
+        if (key == null) {
+            throw new IllegalArgumentException("calls put() with a null key");
         }
+        top = putHelper((Comparable<K>) key, value, top);
 
+    }
+
+    private Node<K, V> putHelper(Comparable<K> key, V value, Node n) {
+        if (n == null) return new Node(key, value);
+        int cmp = key.compareTo((K) n.key);
+        if      (cmp < 0) n.left  = putHelper(key, value, n.left);
+        else if (cmp > 0) n.right = putHelper(key, value, n.right);
+        else              n.value   = value;
+        //n.size = 1 + size(n.left) + size(x.right);
+        return n;
     }
 
     @Override
@@ -104,5 +109,7 @@ public class BSTMap<K, V> implements Map61B<K, V> {
     public Iterator iterator() {
         throw new UnsupportedOperationException("No iterator operation");
     }
-
+//    public static void main(String[] args) {
+//
+//    }
 }
