@@ -29,10 +29,8 @@ public class SimpleOomage implements Oomage {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
-            // TODO: Write a perfect hash function for Simple Oomages.
-            int hashcode = 0;
             int numPossible = 52; //skips every 5
-            return (red / 5) + (green / 5) * numPossible + (blue / 5) * (int) Math.pow(numPossible, 2);
+            return red / 5 + green / 5 * numPossible + blue / 5 * (int) Math.pow(numPossible, 2);
         }
     }
 
