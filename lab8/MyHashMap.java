@@ -4,7 +4,7 @@ import java.util.*;
 public class MyHashMap<K, V> implements Map61B<K, V> {
     private Set keys;
     private int size;
-    int initialSize;
+    private int initialSize;
     private double loadFactor;
     private List<List<HashMapNode<K, V>>> buckets;
 
