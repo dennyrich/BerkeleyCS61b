@@ -1,8 +1,4 @@
-import java.util.Set;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 public class MyHashMap<K, V> implements Map61B<K, V> {
@@ -40,6 +36,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         size = 0;
         this.loadFactor = loadFactor;
         buckets = new ArrayList<>();
+        keys = new HashSet<>();
         for (int i = 0; i < initialSize; i++) {
             List b = new LinkedList<HashMapNode<K, V>>();
             buckets.add(b);
@@ -95,11 +92,11 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     @Override
     public void put(K key, V value) {
         size++;
-        if (size / (double) buckets.size() >= loadFactor) {
+        placeInBucket(new HashMapNode<>(key, value), buckets.size());
+        if (size > loadFactor * buckets.size()) {
             resize();
         }
         keys.add(key);
-        placeInBucket(new HashMapNode<>(key, value), buckets.size());
     }
 
     /** Returns a Set view of the keys contained in this map. */
@@ -136,11 +133,16 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     private void resize () {
         int newSize = buckets.size() + buckets.size() / 2;
         List<List<HashMapNode<K, V>>> oldBuckets = buckets;
-        for (List l : buckets) {
+        buckets.clear();
+        for (int i = 0; i < newSize; i++) {
+            buckets.add(new LinkedList<>());
+        }
+        for (List l : oldBuckets) {
             for (Object node : l) {
                 placeInBucket((HashMapNode<K, V>) node, newSize);
             }
         }
+
     }
     private void placeInBucket(HashMapNode<K, V> node, int bucketsSize) {
         int correctBucket = Math.floorMod(node.key.hashCode(), buckets.size());

@@ -142,5 +142,13 @@ public class TestMyHashMap {
 
     public static void main(String[] args) {
         jh61b.junit.TestRunner.runTests(TestMyHashMap.class);
+//        MyHashMap<Integer, String> test = new MyHashMap<>(2);
+//        test.put(0, "zero");
+//        System.out.println(test.get(0));
+//        test.put(5, "five");
+//        test.put(7, "seven");
+//        System.out.println(test.get(5));
+//        System.out.println(test.size());
+//        System.out.println(test.keySet());
     }
 }
