@@ -4,6 +4,7 @@ import java.util.*;
 public class MyHashMap<K, V> implements Map61B<K, V> {
     private Set keys;
     private int size;
+    int initialSize;
     private double loadFactor;
     private List<List<HashMapNode<K, V>>> buckets;
 
@@ -35,6 +36,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         }
         size = 0;
         this.loadFactor = loadFactor;
+        this.initialSize = initialSize;
         buckets = new ArrayList<>();
         keys = new HashSet<>();
         for (int i = 0; i < initialSize; i++) {
@@ -44,8 +46,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     }
 
     public void clear() {
-        for (List l : buckets) {
-            l.clear(); //built in method for LinkedList
+        buckets.clear();
+        for (int i = 0; i < initialSize; i++) {
+            buckets.add(new LinkedList<>());
         }
     }
 
@@ -54,8 +57,10 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     @Override
     public boolean containsKey(K key) {
         for (List l : buckets) {
-            if (l.contains(key.hashCode())) {
-                return true;
+            for (Object n : l) {
+                if (((HashMapNode<K, V>) n).key.equals(key)) {
+                    return true;
+                }
             }
         }
         return false;
