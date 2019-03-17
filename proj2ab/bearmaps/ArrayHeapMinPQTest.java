@@ -116,4 +116,11 @@ public class ArrayHeapMinPQTest<T> {
         }
         return testHeap;
     }
+    @Test
+    public void testStrings() {
+        ArrayHeapMinPQ<String> bc = new ArrayHeapMinPQ<>();
+        bc.add("b", 0);
+        bc.add("c", 1);
+        bc.changePriority("c", 5);
+    }
 }
