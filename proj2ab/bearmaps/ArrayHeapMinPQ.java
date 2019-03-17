@@ -1,8 +1,5 @@
 package bearmaps;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
@@ -125,6 +122,18 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         if (index == null) {
             throw new IllegalArgumentException();
         }
+
+        try {
+            PriorityNode<T> node = minHeap.get(index);
+        } catch (IndexOutOfBoundsException e) {
+
+            String heapString = "";
+            for (PriorityNode<T> i : minHeap) {
+                heapString += i.item + ",";
+            }
+            throw new IllegalArgumentException(String.format("Index Out Of Bounds: %s. Size: %d, minHeap: %s, current item: %s",
+                    e.getMessage(), size, heapString, item.toString()));
+        }
         return minHeap.get(index).priority;
     }
 
@@ -142,7 +151,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     private void swimDown(PriorityNode<T> n, int index) {
         while (left(index) < size) {
             int child = left(index);
-            if (child < size - 2 && greater(child, child + 1))
+            if (child < size - 1 && greater(child, child + 1))
                 child++; //goes to right child
             if (!greater(index, child))
                 break;

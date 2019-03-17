@@ -24,12 +24,12 @@ public class ArrayHeapMinPQTest<T> {
     public void testForNullPointerExceptions() {
         ArrayHeapMinPQ<Integer> test = new ArrayHeapMinPQ<>();
         List<Integer> added = new ArrayList<>();
-        for (int i = 1; i < 5; i = i++) {
+        for (int i = 0; i < 5; i = i++) {
             if (i % 3 == 0) {
                 test.add(i, i);
-                test.add(i + 1, i);
+                test.add(i + 23, i);
                 added.add(i);
-                added.add(i+1);
+                added.add(i+23);
             } else if ( i % 3 == 1) {
                 if (added.size() > 0) {
                     added.remove(test.removeSmallest());
@@ -53,6 +53,7 @@ public class ArrayHeapMinPQTest<T> {
         testHeap.changePriority(20, 1);
         testHeap.changePriority(30, -1.8);
         testHeap.changePriority(28, 0);
+
         for (int i = 0; i < 40; i++) {
             if (i >= 20 && i <= 30) {
                 assertTrue(i + " not found in heap", testHeap.contains(i));
@@ -73,6 +74,7 @@ public class ArrayHeapMinPQTest<T> {
         small.removeSmallest();
         small.removeSmallest();
         small.changePriority(23, 3);
+        assertFalse(small.contains(6));
 
         ArrayHeapMinPQ<Integer> large = returnLargeHeap();
         for (int i = 0; i < 2000; i++) {
