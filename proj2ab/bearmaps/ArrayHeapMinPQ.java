@@ -142,7 +142,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     private void swimDown(PriorityNode<T> n, int index) {
         while (left(index) < size) {
             int child = left(index);
-            if (child < size - 1 && greater(child, child + 1))
+            if (child < size - 2 && greater(child, child + 1))
                 child++; //goes to right child
             if (!greater(index, child))
                 break;
