@@ -1,6 +1,7 @@
 package bearmaps;
 
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 public class ArrayHeapMinPQTest<T> {
@@ -19,6 +20,7 @@ public class ArrayHeapMinPQTest<T> {
         assertEquals(1000, (int) test.getSmallest());
         test.printFancy();
     }
+
     @Test
     public void testMakeAndRemove() {
         makeHeap(new int[]{1, 3, 5, 8, 10}, new double[]{3.4, 6, 72, 2.2, 55});
@@ -33,7 +35,17 @@ public class ArrayHeapMinPQTest<T> {
         testHeap.changePriority(21, 60);
         testHeap.changePriority(28, 0);
         testHeap.changePriority(25, 5);
-        assertEquals(28, (int) testHeap.getSmallest());
+        testHeap.changePriority(20, 87);
+        testHeap.changePriority(20, 1);
+        testHeap.changePriority(30, -1.8);
+        testHeap.changePriority(28, 0);
+        assertEquals(30, (int) testHeap.getSmallest());
+
+        ArrayHeapMinPQ<Integer> small = new ArrayHeapMinPQ<>();
+        small.add(5, 0);
+        small.changePriority(5, 22);
+
+        //returnLargeHeap();
 
 
     }
@@ -41,6 +53,20 @@ public class ArrayHeapMinPQTest<T> {
     @Test
     public void testSwim() {
 
+    }
+
+    private ArrayHeapMinPQ<Integer> returnLargeHeap() {
+        ArrayHeapMinPQ<Integer> large = new ArrayHeapMinPQ<>();
+        for (int i = 0; i < 200000; i++) {
+            large.add(i, Math.pow(-1, i) * i);
+        }
+        return large;
+    }
+
+    private void changeAllPriority (ArrayHeapMinPQ<Integer> heap) {
+        for (int i = 0; i < heap.size(); i ++) {
+            int smallest = heap.removeSmallest();
+        }
     }
 
 
@@ -74,6 +100,7 @@ public class ArrayHeapMinPQTest<T> {
         for (int i = 20; i <= 30; i ++) {
             testHeap.add(i, 10 / (double) i);
         }
+        testHeap.add(19, 10 / 21.0);
         return testHeap;
     }
 

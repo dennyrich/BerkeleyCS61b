@@ -120,7 +120,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
      * @return -the index in the array by traversing through tree
      */
     private int get(double priority, int position) {
-        if (position > size) {
+        if (position >= size) {
             return -1;
         } else if (priority < minHeap.get(position).priority) {
             return -1;
