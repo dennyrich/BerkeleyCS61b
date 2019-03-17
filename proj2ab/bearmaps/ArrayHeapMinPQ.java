@@ -79,7 +79,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     @Override
     public T removeSmallest() { //
         size--;
-        if (size <= 1) {
+        if (size <= 0) {
             T smallest = minHeap.remove(0).item;
             indices.remove(smallest);
             return smallest;
@@ -139,23 +139,9 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     }
 
     private void swimDown(PriorityNode<T> n, int index) {
-        // while passed in node is greater than left or right
-//        while (left(index) < size - 1 &&
-//                    greater(index, left(index)) ||
-//                    greater(index, right(index))) {
-//            if (n.compareTo(minHeap.get(left(index))) > 0) {
-//                swap(index, left(index));
-//                index = left(index);
-//            } else if (n.compareTo(minHeap.get(right(index))) > 0) {
-//                swap(index, right(index));
-//                index = right(index);
-//            } else {
-//                System.out.println("something went wrong (swimDown)");
-//            }
-//        }
         while (left(index) < size) {
             int child = left(index);
-            if (child < size - 1 && greater(child, child+1))
+            if (child < size - 1 && greater(child, child + 1))
                 child++; //goes to right child
             if (!greater(index, child))
                 break;

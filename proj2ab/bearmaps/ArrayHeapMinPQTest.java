@@ -57,9 +57,12 @@ public class ArrayHeapMinPQTest<T> {
         ArrayHeapMinPQ<Integer> small = new ArrayHeapMinPQ<>();
         small.add(5, 0);
         small.add(6, 1);
-        small.changePriority(6, 30);
+        small.changePriority(6, -1);
         small.changePriority(5, 22);
-
+        small.add(88, 3.2);
+        small.removeSmallest();
+        small.removeSmallest();
+        //small.changePriority(6, 3);
 
         ArrayHeapMinPQ<Integer> large = returnLargeHeap();
         for (int i = 0; i < 2000; i++) {
