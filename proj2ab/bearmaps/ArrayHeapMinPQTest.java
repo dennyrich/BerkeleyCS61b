@@ -2,7 +2,7 @@ package bearmaps;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class ArrayHeapMinPQTest<T> {
     private ArrayHeapMinPQ<Integer> globalHeap = new ArrayHeapMinPQ<>();
@@ -19,6 +19,11 @@ public class ArrayHeapMinPQTest<T> {
         test.removeSmallest();
         assertEquals(1000, (int) test.getSmallest());
         test.printFancy();
+    }
+
+    @Test
+    public void testGetandGetPriority() {
+
     }
 
     @Test
@@ -39,13 +44,25 @@ public class ArrayHeapMinPQTest<T> {
         testHeap.changePriority(20, 1);
         testHeap.changePriority(30, -1.8);
         testHeap.changePriority(28, 0);
+        for (int i = 0; i < 40; i++) {
+            if (i >= 20 && i <= 30) {
+                assertTrue(i + " not found in heap", testHeap.contains(i));
+            } else {
+                assertFalse(i + " found in heap", testHeap.contains(i));
+            }
+        }
+        assertTrue(testHeap.contains(28));
         assertEquals(30, (int) testHeap.getSmallest());
 
         ArrayHeapMinPQ<Integer> small = new ArrayHeapMinPQ<>();
         small.add(5, 0);
         small.changePriority(5, 22);
 
-        //returnLargeHeap();
+
+        ArrayHeapMinPQ<Integer> large = returnLargeHeap();
+        for (int i = 0; i < 2000; i++) {
+            large.changePriority(i, 0);
+        }
 
 
     }
@@ -57,7 +74,7 @@ public class ArrayHeapMinPQTest<T> {
 
     private ArrayHeapMinPQ<Integer> returnLargeHeap() {
         ArrayHeapMinPQ<Integer> large = new ArrayHeapMinPQ<>();
-        for (int i = 0; i < 200000; i++) {
+        for (int i = 0; i < 2000; i++) {
             large.add(i, Math.pow(-1, i) * i);
         }
         return large;
@@ -100,7 +117,6 @@ public class ArrayHeapMinPQTest<T> {
         for (int i = 20; i <= 30; i ++) {
             testHeap.add(i, 10 / (double) i);
         }
-        testHeap.add(19, 10 / 21.0);
         return testHeap;
     }
 

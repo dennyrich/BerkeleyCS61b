@@ -49,14 +49,15 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     }
     @Override
     public void add(T item, double priority) {
-        if (minHeap.contains(new PriorityNode(item))) {
+        if (contains(item)) {
             throw new IllegalArgumentException("Item already exists");
         }
         size++;
         priorities.put(item, priority);
         PriorityNode<T> addition = new PriorityNode<>(item, priority);
         minHeap.add(addition);
-        if (size > 0) {
+        if (size > 1) {
+            // the node, current position (at end of list)
             swimUp(addition, size - 1);
         }
     }
