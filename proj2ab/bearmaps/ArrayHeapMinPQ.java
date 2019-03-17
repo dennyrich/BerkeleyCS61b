@@ -56,7 +56,9 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         priorities.put(item, priority);
         PriorityNode<T> addition = new PriorityNode<>(item, priority);
         minHeap.add(addition);
-        swimUp(addition, size - 1);
+        if (size > 0) {
+            swimUp(addition, size - 1);
+        }
     }
     /* Returns true if the PQ contains the given item. */
 
@@ -104,13 +106,19 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         PriorityNode<T> node = minHeap.get(index);
         node.priority = priority;
         priorities.put(item, priority);
-        if (priority > minHeap.get(parent(index)).priority) {
+        if (priority < minHeap.get(parent(index)).priority) {
             swimUp(node, index);
         } else {
             swimDown(node, index);
         }
     }
 
+    /**
+     *
+     * @param priority
+     * @param position
+     * @return -the index in the array by traversing through tree
+     */
     private int get(double priority, int position) {
         if (position > size) {
             return -1;
@@ -153,8 +161,10 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 //        }
         while (left(index) < size) {
             int child = left(index);
-            if (child < size - 1 && greater(child, child+1)) child++; //goes to right child
-            if (!greater(index, child)) break;
+            if (child < size - 1 && greater(child, child+1))
+                child++; //goes to right child
+            if (!greater(index, child))
+                break;
             swap(index, child);
             index= child;
         }

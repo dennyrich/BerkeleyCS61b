@@ -18,45 +18,31 @@ public class ArrayHeapMinPQTest<T> {
         test.removeSmallest();
         assertEquals(1000, (int) test.getSmallest());
         test.printFancy();
+    }
+    @Test
+    public void testMakeAndRemove() {
         makeHeap(new int[]{1, 3, 5, 8, 10}, new double[]{3.4, 6, 72, 2.2, 55});
         globalHeap.changePriority(3, 5);
         orderedItems = new int[] {8, 1, 3, 10, 5};
         removeItems();
-        //randomAddRemove();
     }
 
-//    /**
-//     * checks for null pointer exceptions
-//     */
-//    @Test
-//    public void randomAddRemove() {
-//        ArrayHeapMinPQ<Integer> randomHeap = new ArrayHeapMinPQ<>();
-//        for (int i = 10; i <= 25; i ++) {
-//            randomHeap.add(i, 20 / (double) i);
-//        }
-//        double random;
-//        int numExecutions = 0;
-//        int addItem = 26;
-//        double addPriority = 76.3;
-//        String input = "";
-//        while (randomHeap.size() > 0) {
-//            numExecutions++;
-//            random = Math.random();
-//            if (random > 0.66) {
-//                randomHeap.removeSmallest();
-//                input += "removeSmallest \n";
-//            } else if (random > 0.33){
-//                randomHeap.add(addItem, addPriority);
-//                addItem += 2;
-//                addPriority /= 0.3;
-//                input += "add(" + addItem + ", " + addPriority + ")\n";
-//            } else {
-//                randomHeap.changePriority(addItem, random * 1000);
-//                input += "changePriority(" + addItem + ", " + random * 1000 + ")\n";
-//            }
-//        }
-//        System.out.println(numExecutions);
-//    }
+    @Test
+    public void testChangePriority() {
+        ArrayHeapMinPQ<Integer> testHeap = returnHeap(); //items: [20, 30], priorities: item/100
+        testHeap.changePriority(21, 60);
+        testHeap.changePriority(28, 0);
+        testHeap.changePriority(25, 5);
+        assertEquals(28, (int) testHeap.getSmallest());
+
+
+    }
+
+    @Test
+    public void testSwim() {
+
+    }
+
 
     /**
      *
@@ -77,6 +63,18 @@ public class ArrayHeapMinPQTest<T> {
             }
             verifyHeap();
         }
+    }
+
+    /**
+     *
+     * @return items: integers [20, 30], priorities: item / (double) 100
+     */
+    private ArrayHeapMinPQ<Integer> returnHeap() {
+        ArrayHeapMinPQ<Integer> testHeap = new ArrayHeapMinPQ<>();
+        for (int i = 20; i <= 30; i ++) {
+            testHeap.add(i, 10 / (double) i);
+        }
+        return testHeap;
     }
 
     private void removeItems() {
