@@ -56,7 +56,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         priorities.put(item, priority);
         PriorityNode<T> addition = new PriorityNode<>(item, priority);
         minHeap.add(addition);
-        swimUp(addition);
+        swimUp(addition, size - 1);
     }
     /* Returns true if the PQ contains the given item. */
 
@@ -79,8 +79,11 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         size--;
         T smallest = minHeap.remove(0).item;
         priorities.remove(smallest);
-        PriorityNode<T> newTop = minHeap.remove(minHeap.size() - 1);
-        minHeap.add(0, newTop); //places last item at from
+        if (size > 1) {
+            PriorityNode<T> newTop = minHeap.remove(minHeap.size() - 1);
+            minHeap.add(0, newTop); //places last item at from
+            swimDown(newTop, 0);
+        }
         return smallest;
     }
     /* Returns the number of items in the PQ. */
@@ -102,9 +105,9 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         node.priority = priority;
         priorities.put(item, priority);
         if (priority > minHeap.get(parent(index)).priority) {
-            swimUp(node);
+            swimUp(node, index);
         } else {
-            swimDown(node);
+            swimDown(node, index);
         }
     }
 
@@ -126,29 +129,34 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
     }
 
-    private void swimUp(PriorityNode<T> n) {
-        int index = size - 1;
+    private void swimUp(PriorityNode<T> n, int index) {
         while (parent(index) >= 0 && lessThan(index, parent(index))) {
             swap(index, parent(index));
             index = parent(index);
         }
     }
 
-    private void swimDown(PriorityNode<T> n) {
-        int index = 0;
+    private void swimDown(PriorityNode<T> n, int index) {
         // while passed in node is greater than left or right
-        while (left(index) < size - 1 &&
-                    greater(index, left(index)) ||
-                    greater(index, right(index))) {
-            if (n.compareTo(minHeap.get(left(index))) > 0) {
-                swap(index, left(index));
-                index = left(index);
-            } else if (n.compareTo(minHeap.get(right(index))) > 0) {
-                swap(index, right(index));
-                index = right(index);
-            } else {
-                System.out.println("something went wrong (swimDown)");
-            }
+//        while (left(index) < size - 1 &&
+//                    greater(index, left(index)) ||
+//                    greater(index, right(index))) {
+//            if (n.compareTo(minHeap.get(left(index))) > 0) {
+//                swap(index, left(index));
+//                index = left(index);
+//            } else if (n.compareTo(minHeap.get(right(index))) > 0) {
+//                swap(index, right(index));
+//                index = right(index);
+//            } else {
+//                System.out.println("something went wrong (swimDown)");
+//            }
+//        }
+        while (left(index) < size) {
+            int child = left(index);
+            if (child < size - 1 && greater(child, child+1)) child++; //goes to right child
+            if (!greater(index, child)) break;
+            swap(index, child);
+            index= child;
         }
     }
 
@@ -167,10 +175,8 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     private void swap(int pos1, int pos2) {
         PriorityNode<T> n1 = minHeap.get(pos1);
         PriorityNode<T> n2 = minHeap.get(pos2);
-        minHeap.remove(pos1);
-        minHeap.add(pos1, n2);
-        minHeap.remove(pos2);
-        minHeap.add(pos2, n1);
+        minHeap.set(pos1, n2);
+        minHeap.set(pos2, n1);
     }
 
     private boolean greater(int pos1, int pos2) {
