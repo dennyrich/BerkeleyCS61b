@@ -11,5 +11,8 @@ public class ArrayHeapMinPQTest<T> {
         test.add(1001, 1);
         test.add(1002, -1);
         assertEquals(1002, (int) test.getSmallest());
+        test.removeSmallest();
+        assertEquals(1000, (int) test.getSmallest());
+        test.printFancy();
     }
 }

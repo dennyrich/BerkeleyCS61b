@@ -1,13 +1,14 @@
 package bearmaps;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     private class PriorityNode<T> implements Comparable<T> {
-        PriorityNode<T> left;
-        PriorityNode<T> right;
         double priority;
         T item;
+
 
         private PriorityNode(T item, double priority) {
             this.item = item;
@@ -25,6 +26,12 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             }
             return false;
         }
+
+        @Override
+        public int hashCode() {
+            return item.hashCode();
+        }
+
         @Override
         public int compareTo(Object other) {
             PriorityNode<T> otherT = (PriorityNode<T>) other;
@@ -33,11 +40,12 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     }
     private List<PriorityNode<T>> minHeap;
     private int size;
-    PriorityNode min;
+    Map<T, Double> priorities;
 
     public ArrayHeapMinPQ() {
         minHeap = new ArrayList<>();
         size = 0;
+        priorities = new HashMap<>();
     }
     @Override
     public void add(T item, double priority) {
@@ -45,6 +53,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             throw new IllegalArgumentException("Item already exists");
         }
         size++;
+        priorities.put(item, priority);
         PriorityNode<T> addition = new PriorityNode<>(item, priority);
         minHeap.add(addition);
         swimUp(addition);
@@ -53,8 +62,11 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     @Override
     public boolean contains(T item) {
-        return minHeap.contains(new PriorityNode<>(item));
+        return getPriority(item) != null;
     }
+
+
+    //private boolean containsHelper(T )
     /* Returns the minimum item. Throws NoSuchElementException if the PQ is empty. */
 
     @Override
@@ -64,7 +76,9 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     /* Removes and returns the minimum item. Throws NoSuchElementException if the PQ is empty. */
     @Override
     public T removeSmallest() {
+        size--;
         T smallest = minHeap.remove(0).item;
+        priorities.remove(smallest);
         PriorityNode<T> newTop = minHeap.remove(minHeap.size() - 1);
         minHeap.add(0, newTop); //places last item at from
         return smallest;
@@ -78,13 +92,38 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
      * doesn't exist. */
     @Override
     public void changePriority(T item, double priority) {
-        for (PriorityNode<T> node : minHeap) {
-            if (node.item.equals(item)) {
-                node.priority = priority;
-                return;
-            }
+        Double oldPriority = getPriority(item);
+        if (oldPriority == null) {
+            throw new java.util.NoSuchElementException();
         }
-        throw new java.util.NoSuchElementException();
+
+        int index = get(oldPriority, 0);
+        PriorityNode<T> node = minHeap.get(index);
+        node.priority = priority;
+        priorities.put(item, priority);
+        if (priority > minHeap.get(parent(index)).priority) {
+            swimUp(node);
+        } else {
+            swimDown(node);
+        }
+    }
+
+    private int get(double priority, int position) {
+        if (position > size) {
+            return -1;
+        } else if (priority < minHeap.get(position).priority) {
+            return -1;
+        }
+        else if (priority == minHeap.get(position).priority) {
+            return position;
+        }
+        else {
+            int index = get(priority, left(position));
+            if (index < 0) {
+                index = get(priority, right(position));
+            }
+            return index;
+        }
     }
 
     private void swimUp(PriorityNode<T> n) {
@@ -142,12 +181,18 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         return minHeap.get(pos1).compareTo(minHeap.get(pos2)) < 0;
     }
 
+    private Double getPriority(T item) {
+        return priorities.get(item);
+    }
+
     void printFancy() {
-        Object[] arr = new Object[size];
+        T[] arr = (T[]) new Object[size];
         for (int i = 0; i < size; i++) {
             arr[i] = minHeap.get(i).item;
+            System.out.println(arr[i]);
         }
         PrintHeapDemo.printFancyHeapDrawing(arr);
     }
+
 
 }
