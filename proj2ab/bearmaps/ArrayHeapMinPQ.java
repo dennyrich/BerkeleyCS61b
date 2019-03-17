@@ -125,7 +125,6 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
         try {
             PriorityNode<T> node = minHeap.get(index);
-            minHeap.get(500000000);
         } catch (IndexOutOfBoundsException e) {
 
             String heapString = "";
