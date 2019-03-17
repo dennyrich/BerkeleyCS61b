@@ -79,7 +79,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     @Override
     public T removeSmallest() { //
         size--;
-        if (size <= 0) {
+        if (size <= 1) {
             T smallest = minHeap.remove(0).item;
             indices.remove(smallest);
             return smallest;
@@ -120,11 +120,12 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     }
 
     // returns priority of node at index mapped by the given item
-    private Double getPriority(T item) {
-        if (getIndex(item) == null) {
+    private double getPriority(T item) {
+        Integer index = getIndex(item);
+        if (index == null) {
             throw new IllegalArgumentException();
         }
-        return minHeap.get(getIndex(item)).priority;
+        return minHeap.get(index).priority;
     }
 
     private Integer getIndex(T item) {

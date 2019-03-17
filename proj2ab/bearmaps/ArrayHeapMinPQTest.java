@@ -2,13 +2,12 @@ package bearmaps;
 
 import org.junit.Test;
 
+import java.util.*;
+
 import static org.junit.Assert.*;
 
 public class ArrayHeapMinPQTest<T> {
-    private ArrayHeapMinPQ<Integer> globalHeap = new ArrayHeapMinPQ<>();
-    private int size = 0;
-    private int minItem;
-    private int[] orderedItems;
+
     @Test
     public void testing() {
         ArrayHeapMinPQ<Integer> test = new ArrayHeapMinPQ<>();
@@ -22,17 +21,27 @@ public class ArrayHeapMinPQTest<T> {
     }
 
     @Test
-    public void testGetandGetPriority() {
-
+    public void testForNullPointerExceptions() {
+        ArrayHeapMinPQ<Integer> test = new ArrayHeapMinPQ<>();
+        List<Integer> added = new ArrayList<>();
+        for (int i = 1; i < 5; i = i++) {
+            if (i % 3 == 0) {
+                test.add(i, i);
+                test.add(i + 1, i);
+                added.add(i);
+                added.add(i+1);
+            } else if ( i % 3 == 1) {
+                if (added.size() > 0) {
+                    added.remove(test.removeSmallest());
+                    added.remove(test.removeSmallest());                }
+            } else {
+                if (added.contains(i)) {
+                    test.changePriority(i / 3, 100 / i);
+                }
+            }
+        }
     }
 
-    @Test
-    public void testMakeAndRemove() {
-        makeHeap(new int[]{1, 3, 5, 8, 10}, new double[]{3.4, 6, 72, 2.2, 55});
-        globalHeap.changePriority(3, 5);
-        orderedItems = new int[] {8, 1, 3, 10, 5};
-        removeItems();
-    }
 
     @Test
     public void testChangePriority() {
@@ -55,26 +64,31 @@ public class ArrayHeapMinPQTest<T> {
         assertEquals(30, (int) testHeap.getSmallest());
 
         ArrayHeapMinPQ<Integer> small = new ArrayHeapMinPQ<>();
-        small.add(5, 0);
-        small.add(6, 1);
+        small.add(5, 0); //22
+        small.add(6, 1); //-1
         small.changePriority(6, -1);
+        small.add(23, 78);
         small.changePriority(5, 22);
         small.add(88, 3.2);
         small.removeSmallest();
         small.removeSmallest();
-        //small.changePriority(6, 3);
+        small.changePriority(23, 3);
 
         ArrayHeapMinPQ<Integer> large = returnLargeHeap();
         for (int i = 0; i < 2000; i++) {
             large.changePriority(i, 0);
         }
 
+        //***********************************//
+        ArrayHeapMinPQ<Integer> anotherOne = new ArrayHeapMinPQ<>();
+        for(int i = 0; i < 20; i += 3) {
+            if (i % 2 == 0) {
+                anotherOne.add(i, i);
+                anotherOne.add(i + 1, i + 1);
+            } else {
 
-    }
-
-    @Test
-    public void testSwim() {
-
+            }
+        }
     }
 
     private ArrayHeapMinPQ<Integer> returnLargeHeap() {
@@ -92,53 +106,12 @@ public class ArrayHeapMinPQTest<T> {
     }
 
 
-    /**
-     *
-     * @param items - a sequence alternating between item and priority
-     * @return heap with all items added with priorities given
-     */
-    private void makeHeap(int[] items, double[] priorities) {
-        //int size = 0;
-        double minP = priorities[0];
-        minItem = items[0];
-//        ArrayHeapMinPQ<Integer> testHeap = new ArrayHeapMinPQ<>();
-        for (int i = 0; i < items.length; i ++) {
-            globalHeap.add(items[i], priorities[i]);
-            size++;
-            minP = Math.min(minP, priorities[i]);
-            if (priorities[i] == minP) {
-                minItem = items[i];
-            }
-            verifyHeap();
-        }
-    }
 
-    /**
-     *
-     * @return items: integers [20, 30], priorities: item / (double) 100
-     */
     private ArrayHeapMinPQ<Integer> returnHeap() {
         ArrayHeapMinPQ<Integer> testHeap = new ArrayHeapMinPQ<>();
         for (int i = 20; i <= 30; i ++) {
             testHeap.add(i, 10 / (double) i);
         }
         return testHeap;
-    }
-
-    private void removeItems() {
-        int orderIndex = 1;
-        for (int i = 0; i < size; i++) {
-            System.out.println(i);
-            globalHeap.removeSmallest();
-            minItem = orderedItems[orderIndex];
-            orderIndex++;
-            size--;
-            verifyHeap();
-        }
-    }
-
-    private void verifyHeap() {
-        assertEquals(size, globalHeap.size());
-        assertEquals(minItem, (int) globalHeap.getSmallest());
     }
 }
