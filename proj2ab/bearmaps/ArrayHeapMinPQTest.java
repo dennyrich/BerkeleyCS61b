@@ -56,6 +56,8 @@ public class ArrayHeapMinPQTest<T> {
 
         ArrayHeapMinPQ<Integer> small = new ArrayHeapMinPQ<>();
         small.add(5, 0);
+        small.add(6, 1);
+        small.changePriority(6, 30);
         small.changePriority(5, 22);
 
 

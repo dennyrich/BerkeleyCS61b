@@ -119,7 +119,15 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
     }
 
-    private int getIndex(T item) {
+    // returns priority of node at index mapped by the given item
+    private Double getPriority(T item) {
+        if (getIndex(item) == null) {
+            throw new IllegalArgumentException();
+        }
+        return minHeap.get(getIndex(item)).priority;
+    }
+
+    private Integer getIndex(T item) {
         return indices.get(item);
     }
 
@@ -183,11 +191,6 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
     private boolean lessThan(int pos1, int pos2) {
         return minHeap.get(pos1).compareTo(minHeap.get(pos2)) < 0;
-    }
-
-    // returns priority of node at index mapped by the given item
-    private Double getPriority(T item) {
-        return minHeap.get(getIndex(item)).priority;
     }
 
     void printFancy() {
