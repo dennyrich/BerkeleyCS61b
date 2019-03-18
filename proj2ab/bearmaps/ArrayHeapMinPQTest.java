@@ -36,7 +36,8 @@ public class ArrayHeapMinPQTest<T> {
             } else if (i % 3 == 1) {
                 if (added.size() > 0) {
                     added.remove(test.removeSmallest());
-                    added.remove(test.removeSmallest());                }
+                    added.remove(test.removeSmallest());
+                }
             } else {
                 if (added.contains(i)) {
                     test.changePriority(i / 3, 100 / i);
@@ -70,7 +71,7 @@ public class ArrayHeapMinPQTest<T> {
 
         ArrayHeapMinPQ<Integer> small = new ArrayHeapMinPQ<>();
         small.add(5, 0); //22
-        small.add(6, 1); //-1
+        small.add(6, 1); // -1
         small.changePriority(6, -1);
         small.add(23, 78);
         small.changePriority(5, 22);
@@ -103,7 +104,7 @@ public class ArrayHeapMinPQTest<T> {
         return large;
     }
 
-    private void changeAllPriority (ArrayHeapMinPQ<Integer> heap) {
+    private void changeAllPriority(ArrayHeapMinPQ<Integer> heap) {
         for (int i = 0; i < heap.size(); i++) {
             int smallest = heap.removeSmallest();
         }

@@ -136,8 +136,8 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             for (T i : indices.keySet()) {
                 indicesString = indicesString + i + ", " + indices.get(i) + "; ";
             }
-            throw new IllegalArgumentException(String.format("Index Out Of Bounds: %s. Size: " +
-                            "%d, minHeap: %s, current item: %s, keys: %s",
+            throw new IllegalArgumentException(String.format("Index Out Of Bounds: %s. Size: "
+                            + "%d, minHeap: %s, current item: %s, keys: %s",
                     e.getMessage(), size, heapString, item.toString(), indicesString));
         }
         return minHeap.get(index).priority;
