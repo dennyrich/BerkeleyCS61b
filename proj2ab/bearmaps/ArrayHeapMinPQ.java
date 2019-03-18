@@ -83,7 +83,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
         }
         // swap smallest with greatest, then swimdown
         else {
-            swap(0, size - 1);
+            swap(0, size);
             PriorityNode<T> newTop = minHeap.get(0);
             PriorityNode<T> smallest = minHeap.remove(size - 1);
             indices.remove(smallest.item);
