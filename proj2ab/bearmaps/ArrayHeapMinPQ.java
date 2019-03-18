@@ -1,5 +1,8 @@
 package bearmaps;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
@@ -80,9 +83,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             T smallest = minHeap.remove(0).item;
             indices.remove(smallest);
             return smallest;
-        }
-        // swap smallest with greatest, then swimdown
-        else {
+        } else {
             swap(0, size);
             PriorityNode<T> newTop = minHeap.get(0);
             PriorityNode<T> smallest = minHeap.remove(size);
@@ -135,7 +136,8 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             for (T i : indices.keySet()) {
                 indicesString = indicesString + i + ", " + indices.get(i) + "; ";
             }
-            throw new IllegalArgumentException(String.format("Index Out Of Bounds: %s. Size: %d, minHeap: %s, current item: %s, keys: %s",
+            throw new IllegalArgumentException(String.format("Index Out Of Bounds: %s. Size: " +
+                            "%d, minHeap: %s, current item: %s, keys: %s",
                     e.getMessage(), size, heapString, item.toString(), indicesString));
         }
         return minHeap.get(index).priority;
@@ -155,12 +157,14 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
     private void swimDown(PriorityNode<T> n, int index) {
         while (left(index) < size) {
             int child = left(index);
-            if (child < size - 1 && greater(child, child + 1))
+            if (child < size - 1 && greater(child, child + 1)) {
                 child++; //goes to right child
-            if (!greater(index, child))
+            }
+            if (!greater(index, child)) {
                 break;
+            }
             swap(index, child);
-            index= child;
+            index = child;
         }
     }
 

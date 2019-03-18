@@ -2,9 +2,12 @@ package bearmaps;
 
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class ArrayHeapMinPQTest<T> {
 
@@ -29,8 +32,8 @@ public class ArrayHeapMinPQTest<T> {
                 test.add(i, i);
                 test.add(i + 23, i);
                 added.add(i);
-                added.add(i+23);
-            } else if ( i % 3 == 1) {
+                added.add(i + 23);
+            } else if (i % 3 == 1) {
                 if (added.size() > 0) {
                     added.remove(test.removeSmallest());
                     added.remove(test.removeSmallest());                }
@@ -61,6 +64,7 @@ public class ArrayHeapMinPQTest<T> {
                 assertFalse(i + " found in heap", testHeap.contains(i));
             }
         }
+
         assertTrue(testHeap.contains(28));
         assertEquals(30, (int) testHeap.getSmallest());
 
@@ -83,12 +87,10 @@ public class ArrayHeapMinPQTest<T> {
 
         //***********************************//
         ArrayHeapMinPQ<Integer> anotherOne = new ArrayHeapMinPQ<>();
-        for(int i = 0; i < 20; i += 3) {
+        for (int i = 0; i < 20; i += 3) {
             if (i % 2 == 0) {
                 anotherOne.add(i, i);
                 anotherOne.add(i + 1, i + 1);
-            } else {
-
             }
         }
     }
@@ -102,7 +104,7 @@ public class ArrayHeapMinPQTest<T> {
     }
 
     private void changeAllPriority (ArrayHeapMinPQ<Integer> heap) {
-        for (int i = 0; i < heap.size(); i ++) {
+        for (int i = 0; i < heap.size(); i++) {
             int smallest = heap.removeSmallest();
         }
     }
@@ -111,7 +113,7 @@ public class ArrayHeapMinPQTest<T> {
 
     private ArrayHeapMinPQ<Integer> returnHeap() {
         ArrayHeapMinPQ<Integer> testHeap = new ArrayHeapMinPQ<>();
-        for (int i = 20; i <= 30; i ++) {
+        for (int i = 20; i <= 30; i++) {
             testHeap.add(i, 10 / (double) i);
         }
         return testHeap;
