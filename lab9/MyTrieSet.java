@@ -67,7 +67,7 @@ public class MyTrieSet implements TrieSet61B {
             listSoFar.add(word);
         }
         for (Node child : n.map.values()) {
-            completeTheList(listSoFar, child, word + n.letter);
+            completeTheList(listSoFar, child, word + child.letter);
         }
     }
 
