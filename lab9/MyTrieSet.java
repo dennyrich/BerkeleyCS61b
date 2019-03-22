@@ -58,7 +58,7 @@ public class MyTrieSet implements TrieSet61B {
     }
 
     private void completeTheList(List<String> listSoFar, Node n, String word) {
-        word += n.letter;
+        //word += n.letter;
         if (n.map.isEmpty()) {
             listSoFar.add(word);
             return;
@@ -67,7 +67,7 @@ public class MyTrieSet implements TrieSet61B {
             listSoFar.add(word);
         }
         for (Node child : n.map.values()) {
-            completeTheList(listSoFar, child, word);
+            completeTheList(listSoFar, child, word + n.letter);
         }
     }
 
@@ -94,12 +94,5 @@ public class MyTrieSet implements TrieSet61B {
             map = new HashMap<>();
             isKey = end;
         }
-    }
-    public static void main(String[] args) {
-        MyTrieSet t = new MyTrieSet();
-        t.add("hello");
-        t.add("hi");
-        t.add("help");
-        t.add("zebra");
     }
 }
