@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MyTrieSet implements TrieSet61B {
-    Node holder;
+    private Node holder;
     /** Clears all items out of Trie */
     public MyTrieSet() {
         holder = new Node('z');
