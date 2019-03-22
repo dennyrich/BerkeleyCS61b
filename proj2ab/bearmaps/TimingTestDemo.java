@@ -9,22 +9,32 @@ import edu.princeton.cs.algs4.Stopwatch;
  */
 public class TimingTestDemo {
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        int sum = 0;
-        for (int i = 0; i < 100000; i += 1) {
-            for (int j = 0; j < 10000; j += 1) {
-                sum = sum + i + j;
+        int C = 2500;
+        int numIncrements = 10000;
+        int item = 0;
+        double[] times = new double[numIncrements];
+        ArrayHeapMinPQ<Integer> timeTestHeap = new ArrayHeapMinPQ<>();
+        for (int trial = 0; trial < numIncrements; trial++) {
+            long start = System.currentTimeMillis();
+            for (int i = 0; i < C; i++) {
+                timeTestHeap.add(item, Math.pow(-1, i) * i + trial);
+                item++;
             }
+            long end = System.currentTimeMillis();
+            times[trial] = (end - start);
+            //System.out.println("my implementation: " + (end - start) / 1000.0 + " seconds.");
         }
-        long end = System.currentTimeMillis();
-        System.out.println("Total time elapsed: " + (end - start) / 1000.0 +  " seconds.");
+        double cumulative = 0;
+        for (int i = 0; i < numIncrements; i ++) {
+            cumulative += times[i];
+            System.out.println(times[i]);
+        }
 
         Stopwatch sw = new Stopwatch();
-        for (int i = 0; i < 100000; i += 1) {
-            for (int j = 0; j < 10000; j += 1) {
-                sum = sum + i + j;
-            }
+        NaiveMinPQ<Integer> naive = new NaiveMinPQ<>();
+        for (int i = 0; i < 2000000; i++) {
+            naive.add(i, Math.pow(-1, i) * i);
         }
-        System.out.println("Total time elapsed: " + sw.elapsedTime() +  " seconds.");
+        System.out.println("naive: " + sw.elapsedTime() +  " seconds.");
     }
 }

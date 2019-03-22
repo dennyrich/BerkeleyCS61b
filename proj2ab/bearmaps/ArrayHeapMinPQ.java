@@ -124,22 +124,22 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
             throw new IllegalArgumentException();
         }
 
-        try {
-            PriorityNode<T> node = minHeap.get(index);
-        } catch (IndexOutOfBoundsException e) {
-
-            String heapString = "";
-            for (PriorityNode<T> i : minHeap) {
-                heapString += i.item + ",";
-            }
-            String indicesString = "";
-            for (T i : indices.keySet()) {
-                indicesString = indicesString + i + ", " + indices.get(i) + "; ";
-            }
-            throw new IllegalArgumentException(String.format("Index Out Of Bounds: %s. Size: "
-                            + "%d, minHeap: %s, current item: %s, keys: %s",
-                    e.getMessage(), size, heapString, item.toString(), indicesString));
-        }
+//        try {
+//            PriorityNode<T> node = minHeap.get(index);
+//        } catch (IndexOutOfBoundsException e) {
+//
+//            String heapString = "";
+//            for (PriorityNode<T> i : minHeap) {
+//                heapString += i.item + ",";
+//            }
+//            String indicesString = "";
+//            for (T i : indices.keySet()) {
+//                indicesString = indicesString + i + ", " + indices.get(i) + "; ";
+//            }
+//            throw new IllegalArgumentException(String.format("Index Out Of Bounds: %s. Size: "
+//                            + "%d, minHeap: %s, current item: %s, keys: %s",
+//                    e.getMessage(), size, heapString, item.toString(), indicesString));
+//        }
         return minHeap.get(index).priority;
     }
 
