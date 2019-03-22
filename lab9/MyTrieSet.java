@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +46,29 @@ public class MyTrieSet implements TrieSet61B {
     /** Returns a list of all words that start with PREFIX */
     @Override
     public List<String> keysWithPrefix(String prefix) {
-        return null;
+        Node current = holder;
+        for (int i = 0; i < prefix.length(); i++) {
+            current = current.map.get(prefix.charAt(i));
+        }
+
+        List<String> listSoFar = new ArrayList<>();
+        listSoFar.add(prefix);
+        completeTheList(listSoFar, current, prefix);
+        return listSoFar;
+    }
+
+    private void completeTheList(List<String> listSoFar, Node n, String word) {
+        word += n.letter;
+        if (n.map.isEmpty()) {
+            listSoFar.add(word);
+            return;
+        }
+        if (n.isKey) {
+            listSoFar.add(word);
+        }
+        for (Node child : n.map.values()) {
+            completeTheList(listSoFar, child, word);
+        }
     }
 
     /** Returns the longest prefix of KEY that exists in the Trie
@@ -72,5 +95,11 @@ public class MyTrieSet implements TrieSet61B {
             isKey = end;
         }
     }
-
+    public static void main(String[] args) {
+        MyTrieSet t = new MyTrieSet();
+        t.add("hello");
+        t.add("hi");
+        t.add("help");
+        t.add("zebra");
+    }
 }
