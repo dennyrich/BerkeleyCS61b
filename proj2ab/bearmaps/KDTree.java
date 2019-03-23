@@ -1,23 +1,18 @@
 package bearmaps;
 
-import java.util.ArrayList;
 import java.util.List;
-public class KDTree implements PointSet{
-    private List<Node> nodes;
+public class KDTree implements PointSet {
+
     private Node root;
-    private int size;
 
     public KDTree(List<Point> points) {
-        nodes = new ArrayList<>();
         root = new Node(points.get(0));
         root.usingXAxis = true;
-        size = points.size();
+        int size = points.size();
         for (int i = 1; i < size; i++) {
             Node newNode = new Node(points.get(i));
-            nodes.add(newNode);
             insert(newNode, root);
         }
-        // this will place all of the following nodes -"chain reaction"
     }
 
     @Override
@@ -35,7 +30,8 @@ public class KDTree implements PointSet{
         }
         Node goodSide;
         Node badSide;
-        if (closest.compareTo(current) < 0) {
+        Node targetNode = new Node(target);
+        if (current.compareTo(targetNode) > 0) {
             goodSide = current.leftOrDown;
             badSide = current.rightOrUp;
         } else {
@@ -43,13 +39,15 @@ public class KDTree implements PointSet{
             badSide = current.leftOrDown;
         }
         double distanceToBadSide;
+
+        closest = nearestInner(goodSide, target, closest);
+
         if (current.usingXAxis) {
             distanceToBadSide = Math.abs(target.getX() - current.point.getX());
         } else {
             distanceToBadSide = Math.abs(target.getY() - current.point.getY());
         }
-        closest = nearestInner(goodSide, target, closest);
-        if (distanceToBadSide < Point.distance(target, closest.point)) {
+        if (Math.pow(distanceToBadSide, 2) <= Point.distance(target, closest.point)) {
             closest = nearestInner(badSide, target, closest);
         }
         return closest;
@@ -63,9 +61,7 @@ public class KDTree implements PointSet{
             } else {
                 insert(child, parent.rightOrUp);
             }
-        }
-        // else if parent.compareTo(child) > 0
-        else {
+        } else {
             if (parent.leftOrDown == null) {
                 parent.leftOrDown = child;
                 child.usingXAxis = !parent.usingXAxis;

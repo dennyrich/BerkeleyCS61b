@@ -25,7 +25,7 @@ public class TimingTestDemo {
             //System.out.println("my implementation: " + (end - start) / 1000.0 + " seconds.");
         }
         double cumulative = 0;
-        for (int i = 0; i < numIncrements; i ++) {
+        for (int i = 0; i < numIncrements; i++) {
             cumulative += times[i];
             System.out.println(times[i]);
         }

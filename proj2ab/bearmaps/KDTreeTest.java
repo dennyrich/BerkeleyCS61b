@@ -52,9 +52,9 @@ public class KDTreeTest {
         double xCoord = (Math.random() - 0.5) * 100;
         double yCoord = (Math.random() - 0.5) * 100;
         PointSet[] tests = makeRandomKDAndNaive();
-        PointSet KDTest = tests[0];
+        PointSet kdTest = tests[0];
         PointSet naive = tests[1];
-        assertEquals(naive.nearest(xCoord, yCoord), KDTest.nearest(xCoord, yCoord));
+        assertEquals(naive.nearest(xCoord, yCoord), kdTest.nearest(xCoord, yCoord));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class KDTreeTest {
 
     private PointSet[] makeRandomKDAndNaive() {
         List<Point> setOfPoints = new LinkedList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10000; i++) {
             double randomX = (Math.random() - 0.5) * 100;
             double randomY = (Math.random() - 0.5) * 100;
             setOfPoints.add(new Point(randomX, randomY));
@@ -76,7 +76,7 @@ public class KDTreeTest {
 
     private PointSet makeRandomKDTree() {
         List<Point> setOfPoints = new LinkedList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 1000; i++) {
             double randomX = (Math.random() - 0.5) * 100;
             double randomY = (Math.random() - 0.5) * 100;
             setOfPoints.add(new Point(randomX, randomY));
