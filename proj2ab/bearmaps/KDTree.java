@@ -54,7 +54,9 @@ public class KDTree implements PointSet {
     }
 
     private void insert(Node child, Node parent) {
-        if (parent.compareTo(child) < 0) {
+        if (parent.compareTo(child) == 0) {
+            parent = child;
+        } else if (parent.compareTo(child) < 0) {
             if (parent.rightOrUp == null) {
                 parent.rightOrUp = child;
                 child.usingXAxis = !parent.usingXAxis;

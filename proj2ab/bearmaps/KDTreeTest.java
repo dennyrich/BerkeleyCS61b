@@ -50,7 +50,6 @@ public class KDTreeTest {
 
     @Test
     public void compareToNaive() {
-        List<Point> setOfPoints = new LinkedList<>();
         double xCoord;
         double yCoord;
         PointSet[] tests = makeRandomKDAndNaive();
