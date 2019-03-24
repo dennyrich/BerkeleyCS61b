@@ -56,7 +56,7 @@ public class KDTreeTest {
         PointSet[] tests = makeRandomKDAndNaive();
         PointSet kdTest = tests[0];
         PointSet naive = tests[1];
-        for (int i = 0; i < 1000; i ++) {
+        for (int i = 0; i < 1000; i++) {
             xCoord = (Math.random() - 0.5) * 100;
             yCoord = (Math.random() - 0.5) * 100;
             System.out.println("Point: (" + xCoord + ", " + yCoord + ")");
@@ -71,8 +71,8 @@ public class KDTreeTest {
 
     @Test
     public void timeTesting() {
-        List<Integer> Ns = List.of(100, 1000, 10000, 100000, 500000 );
-        for (int N : Ns) {
+        List<Integer> ns = List.of(100, 1000, 10000, 100000, 500000);
+        for (int N : ns) {
             printTimeElapsedKd(N, 10000);
             printTimeElapsedNaive(N, 10000);
         }
@@ -96,8 +96,8 @@ public class KDTreeTest {
         for (Point p : targets) {
             Point nearest = timeKdTree.nearest(p.getX(), p.getY());
         }
-        System.out.println("(KDTree) Point count: " + N + "; Query count: " + numQuery +
-                            "; Time elapsed: " + timer.elapsedTime());
+        System.out.println("(KDTree) Point count: " + N + "; Query count: " + numQuery
+                            + "; Time elapsed: " + timer.elapsedTime());
     }
 
     private void printTimeElapsedNaive(int N, int numQuery) {
@@ -108,8 +108,8 @@ public class KDTreeTest {
         for (Point p : targets) {
             Point nearest = timeNaive.nearest(p.getX(), p.getY());
         }
-        System.out.println("(Naive ) Point count: " + N + "; Query count: " + numQuery +
-                "; Time elapsed: " + timer.elapsedTime());
+        System.out.println("(Naive ) Point count: " + N + "; Query count: " + numQuery
+                            + "; Time elapsed: " + timer.elapsedTime());
     }
 
     private PointSet[] makeRandomKDAndNaive() {
