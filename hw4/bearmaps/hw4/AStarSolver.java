@@ -94,7 +94,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             WeightedEdge<Vertex> edgeTemp = edgeTo.get(end);
             solution.add(end);
             solutionWeight += edgeTemp.weight();
-            while (!edgeTemp.from().equals(start) ) {
+            while (!edgeTemp.from().equals(start)) {
                 solution.addFirst(edgeTemp.from());
                 edgeTemp = edgeTo.get(edgeTemp.from());
                 solutionWeight += edgeTemp.weight();
@@ -135,11 +135,11 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             edgeTo.put(q, e);
             distTo.put(q, distTo.get(p) + w);
             if (pq.contains(q)) {
-                pq.changePriority(q, distTo.get(q) +
-                                    input.estimatedDistanceToGoal(q, end));
+                pq.changePriority(q, distTo.get(q)
+                        + input.estimatedDistanceToGoal(q, end));
             } else {
-                pq.add(q, distTo.get(q) +
-                        input.estimatedDistanceToGoal(q, end));
+                pq.add(q, distTo.get(q)
+                        + input.estimatedDistanceToGoal(q, end));
             }
         }
     }
