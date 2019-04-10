@@ -12,12 +12,13 @@ import bearmaps.hw4.SolutionPrinter;
  */
 public class DemoIntegerHopPuzzleSolution {
     public static void main(String[] args) {
-        int start = 1;
-        int goal = 5;
+        int start = 5;
+        int goal = 4;
 
         IntegerHopGraph ahg = new IntegerHopGraph();
 
         ShortestPathsSolver<Integer> solver = new AStarSolver<>(ahg, start, goal, 10);
+        System.out.println("weight: " + solver.solutionWeight());
         SolutionPrinter.summarizeSolution(solver, " => ");
 
     }

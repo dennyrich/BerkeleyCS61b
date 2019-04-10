@@ -93,6 +93,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         } else if (!outcome.equals(SolverOutcome.UNSOLVABLE)) {
             WeightedEdge<Vertex> edgeTemp = edgeTo.get(end);
             solution.add(end);
+            solutionWeight += edgeTemp.weight();
             while (!edgeTemp.from().equals(start) ) {
                 solutionWeight += edgeTemp.weight();
                 solution.addFirst(edgeTemp.from());
