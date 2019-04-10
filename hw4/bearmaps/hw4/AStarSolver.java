@@ -42,7 +42,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         //accounting for adding the source initially
         this.input = input;
         this.end = end;
-        numStatesExplored = 1;
+        numStatesExplored = 0;
         solutionWeight = 0;
         pq = new DoubleMapPQ<>();
         solution = new LinkedList<>();
@@ -85,6 +85,8 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
             timeElapsed = sw.elapsedTime();
         }
+
+        // this interprets the edgeTo set to create a solution
 
         if (timeElapsed > timeout) {
             outcome =  SolverOutcome.TIMEOUT;
