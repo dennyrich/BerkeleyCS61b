@@ -95,9 +95,9 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             solution.add(end);
             solutionWeight += edgeTemp.weight();
             while (!edgeTemp.from().equals(start) ) {
+                edgeTemp = edgeTo.get(edgeTemp.from());
                 solutionWeight += edgeTemp.weight();
                 solution.addFirst(edgeTemp.from());
-                edgeTemp = edgeTo.get(edgeTemp.from());
             }
             if (edgeTemp.from().equals(start)) {
                 if (!start.equals(end)) {
@@ -105,6 +105,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
                 }
                 outcome = SolverOutcome.SOLVED;
             }
+            timeElapsed = sw.elapsedTime();
         }
     }
     public SolverOutcome outcome() {
