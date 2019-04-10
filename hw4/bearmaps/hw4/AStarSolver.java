@@ -3,10 +3,8 @@ package bearmaps.hw4;
 import bearmaps.hw4.lectureexample.WeightedDirectedGraph;
 import bearmaps.proj2ab.DoubleMapPQ;
 import edu.princeton.cs.algs4.Stopwatch;
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
-import java.util.ArrayList;
-//import java.util.LinkedList;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -64,25 +62,16 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             return;
         }
 
-        List<WeightedEdge<Vertex>> neighborEdges;
         while (pq.size() > 0 && timeElapsed <= timeout && !best.equals(end)) {
             best = pq.removeSmallest();
-
-//            //repeats loop until best .equals end; solution found
-//            if (best.equals(end)) {
-//                if (!edgeTo.containsKey(end)) {
-//                    edgeTo.put(end, new WeightedEdge<>(end, end, 0));
-//                }
-//                break;
-//            }
+            visited.add(best);
+            numStatesExplored++;
 
             for (WeightedEdge<Vertex> e : input.neighbors(best)) {
                 if (!visited.contains(e.to())) {
-                    visited.add(e.to());
                     if (!distTo.containsKey(e.to())) {
                         distTo.put(e.to(), Double.MAX_VALUE);
                     }
-                    numStatesExplored++;
                     relax(e);
                 }
             }
@@ -94,10 +83,13 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             timeElapsed = sw.elapsedTime();
         }
 
-        // this interprets the edgeTo set to create a solution
+        /**
+         * this part interprets the solution from the edgeTo set
+         */
 
         if (timeElapsed > timeout) {
             outcome =  SolverOutcome.TIMEOUT;
+
         } else if (!outcome.equals(SolverOutcome.UNSOLVABLE)) {
             WeightedEdge<Vertex> edgeTemp = edgeTo.get(end);
             solution.add(end);
