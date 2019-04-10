@@ -10,11 +10,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 
 public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
     private AStarGraph<Vertex> input;
     private HashMap<Vertex, Double> distTo;
     private HashMap<Vertex, WeightedEdge<Vertex>> edgeTo;
+    private Set<Vertex> visited;
     private DoubleMapPQ<Vertex> pq;
     private Vertex end;
     /**
@@ -32,6 +36,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
         distTo = new HashMap<>();
         edgeTo = new HashMap<>();
+        visited = new HashSet<>();
 
         timeElapsed = 0;
         //accounting for adding the source initially
@@ -68,11 +73,14 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
             neighborEdges = input.neighbors(best);
             for (WeightedEdge<Vertex> e : neighborEdges) {
-                if (!distTo.containsKey(e)) {
-                    distTo.put(e.to(), Double.MAX_VALUE);
+                if (!visited.contains(e.to())) {
+                    visited.add(e.to());
+                    if (!distTo.containsKey(e)) {
+                        distTo.put(e.to(), Double.MAX_VALUE);
+                    }
+                    numStatesExplored++;
+                    relax(e);
                 }
-                numStatesExplored++;
-                relax(e);
             }
 
             timeElapsed = sw.elapsedTime();
