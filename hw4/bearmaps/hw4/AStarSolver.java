@@ -37,7 +37,6 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         //accounting for adding the source initially
         this.input = input;
         this.end = end;
-        //this.timeout = timeout;
         numStatesExplored = 1;
         solutionWeight = 0;
         pq = new DoubleMapPQ<>();
@@ -48,13 +47,24 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         pq.add(start, input.estimatedDistanceToGoal(start, end));
         distTo.put(start, 0.0);
         Vertex best;
+        boolean firstRound = true;
         List<WeightedEdge<Vertex>> neighborEdges;
         while (pq.size() > 0 && timeElapsed <= timeout) {
             best = pq.removeSmallest();
 
+            //repeats loop until best .equals end
             if (best.equals(end)) {
+                if (!edgeTo.containsKey(end)) {
+                    edgeTo.put(end, new WeightedEdge<>(end, end, 0));
+                }
                 break;
             }
+
+            if (best.equals(start) && !firstRound) {
+                outcome = SolverOutcome.UNSOLVABLE;
+                return;
+            }
+            firstRound = false;
 
             neighborEdges = input.neighbors(best);
             for (WeightedEdge<Vertex> e : neighborEdges) {
@@ -68,19 +78,20 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             timeElapsed = sw.elapsedTime();
         }
 
-        //case of unsolvable should be taken care of because the constructor should "return"
         if (timeElapsed > timeout) {
             outcome =  SolverOutcome.TIMEOUT;
         } else {
             WeightedEdge<Vertex> edgeTemp = edgeTo.get(end);
             solution.add(end);
-            while (!edgeTemp.from().equals(start)) {
+            while (!edgeTemp.from().equals(start) ) {
                solutionWeight += edgeTemp.weight();
                solution.addFirst(edgeTemp.from());
                edgeTemp = edgeTo.get(edgeTemp.from());
             }
             if (edgeTemp.from().equals(start)) {
-                solution.addFirst(edgeTemp.from());
+                if (!start.equals(end)) {
+                    solution.addFirst(edgeTemp.from());
+                }
                 outcome = SolverOutcome.SOLVED;
             } else {
                 outcome = SolverOutcome.UNSOLVABLE;
