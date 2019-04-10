@@ -14,7 +14,7 @@ import java.util.List;
 public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
     private AStarGraph<Vertex> input;
     private HashMap<Vertex, Double> distTo;
-    private HashMap<Vertex, Vertex> pathTo;
+    private HashMap<Vertex, WeightedEdge<Vertex>> edgeTo;
     private DoubleMapPQ<Vertex> pq;
     private Vertex end;
     /**
@@ -31,7 +31,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         Stopwatch sw = new Stopwatch();
 
         distTo = new HashMap<>();
-        pathTo = new HashMap<>();
+        edgeTo = new HashMap<>();
 
         timeElapsed = 0;
         //accounting for adding the source initially
@@ -43,38 +43,47 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         pq = new DoubleMapPQ<>();
         solution = new LinkedList<>();
 
-        setAllToInfinity(start);
 
 
         pq.add(start, input.estimatedDistanceToGoal(start, end));
         distTo.put(start, 0.0);
-        Vertex best = start;
-        while (pq.size() > 0 && timeElapsed <= timeout && best != end) {
+        Vertex best;
+        List<WeightedEdge<Vertex>> neighborEdges;
+        while (pq.size() > 0 && timeElapsed <= timeout) {
             best = pq.removeSmallest();
 
-            if (pq == null && best.equals(end)) {
-                outcome = SolverOutcome.UNSOLVABLE;
-                return;
+            if (best.equals(end)) {
+                break;
             }
 
-            List<WeightedEdge<Vertex>> neighborEdges = input.neighbors(best);
+            neighborEdges = input.neighbors(best);
             for (WeightedEdge<Vertex> e : neighborEdges) {
+                if (!distTo.containsKey(e)) {
+                    distTo.put(e.to(), Double.MAX_VALUE);
+                }
+                numStatesExplored++;
                 relax(e);
             }
 
             timeElapsed = sw.elapsedTime();
         }
+
         //case of unsolvable should be taken care of because the constructor should "return"
         if (timeElapsed > timeout) {
             outcome =  SolverOutcome.TIMEOUT;
         } else {
-            Vertex pathThrough = end;
-            System.out.println(end);
+            WeightedEdge<Vertex> edgeTemp = edgeTo.get(end);
             solution.add(end);
-            System.out.println(solution);
-            while (!pathThrough.equals(start)) {
-                pathThrough = pathTo.get(pathThrough);
-                solution.addFirst(pathThrough);
+            while (!edgeTemp.from().equals(start)) {
+               solutionWeight += edgeTemp.weight();
+               solution.addFirst(edgeTemp.from());
+               edgeTemp = edgeTo.get(edgeTemp.from());
+            }
+            if (edgeTemp.from().equals(start)) {
+                solution.addFirst(edgeTemp.from());
+                outcome = SolverOutcome.SOLVED;
+            } else {
+                outcome = SolverOutcome.UNSOLVABLE;
             }
         }
     }
@@ -100,14 +109,9 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
         Vertex p = e.from();
         Vertex q = e.to();
         Double w = e.weight();
-        if (!distTo.containsKey(p)) {
-            distTo.put(p, Double.MAX_VALUE);
-        }
-        if (!distTo.containsKey(q)) {
-            distTo.put(q, Double.MAX_VALUE);
-        }
+
         if (distTo.get(p) + w < distTo.get(q)) {
-            pathTo.put(q, p);
+            edgeTo.put(q, e);
             distTo.put(q, distTo.get(p) + w);
             if (pq.contains(q)) {
                 pq.changePriority(q, distTo.get(q) +
@@ -117,11 +121,5 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
                         input.estimatedDistanceToGoal(q, end));
             }
         }
-    }
-
-    private void setAllToInfinity(Vertex v) {
-        LinkedList<Vertex> queue = new LinkedList<>();
-        queue.addLast(v);
-
     }
 }
