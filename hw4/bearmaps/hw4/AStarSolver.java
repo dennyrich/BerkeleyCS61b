@@ -1,6 +1,6 @@
 package bearmaps.hw4;
 
-import bearmaps.hw4.lectureexample.WeightedDirectedGraph;
+
 import bearmaps.proj2ab.DoubleMapPQ;
 import edu.princeton.cs.algs4.Stopwatch;
 
