@@ -87,12 +87,14 @@ public class MergeSort {
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         if (items.size() <= 1) {
+            //System.out.println(items.size());
             return items;
         }
         Queue<Queue<Item>> queueOfQueues = makeSingleItemQueues(items);
-        while(queueOfQueues.size() != 1) {
+        while(queueOfQueues.size() > 1) {
             queueOfQueues.enqueue(mergeSortedQueues(queueOfQueues.dequeue(), queueOfQueues.dequeue()));
         }
-        return queueOfQueues.dequeue();
+        items = queueOfQueues.dequeue();
+        return items;
     }
 }

@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Queue;
 
 import org.junit.Assert;
@@ -17,7 +18,15 @@ public class TestSortAlgs {
         for (int i = 10; i > 0; i--) {
             test.enqueue(i);
         }
-        Assert.assertTrue(isSorted(MergeSort.mergeSort(test)));
+
+        Queue<Integer> small = new Queue<>();
+        small.enqueue(0);
+        Queue<Integer> empty = new Queue<>();
+        test = MergeSort.mergeSort(test);
+        Assert.assertTrue(isSorted(test));
+        System.out.println(test);
+        Assert.assertTrue(isSorted(MergeSort.mergeSort(small)));
+        Assert.assertTrue(isSorted(MergeSort.mergeSort(empty)));
     }
 
     /**
