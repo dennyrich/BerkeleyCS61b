@@ -1,5 +1,5 @@
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.QuickUnionUF;
+//import edu.princeton.cs.algs4.QuickUnionUF;
 
 public class MergeSort {
     /**
