@@ -24,7 +24,9 @@ public class TestSortAlgs {
         Queue<Integer> empty = new Queue<>();
         test = MergeSort.mergeSort(test);
         Assert.assertTrue(isSorted(test));
-        System.out.println(test);
+
+        System.out.println(test.size());
+
         Assert.assertTrue(isSorted(MergeSort.mergeSort(small)));
         Assert.assertTrue(isSorted(MergeSort.mergeSort(empty)));
     }
