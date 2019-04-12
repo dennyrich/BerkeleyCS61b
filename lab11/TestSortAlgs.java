@@ -5,6 +5,8 @@ import org.junit.Assert;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 public class TestSortAlgs {
 
     @Test
@@ -23,6 +25,7 @@ public class TestSortAlgs {
         small.enqueue(0);
         Queue<Integer> empty = new Queue<>();
         test = MergeSort.mergeSort(test);
+        System.out.println(test.size());
         Assert.assertTrue(isSorted(test));
 
         System.out.println(test.size());
@@ -41,14 +44,17 @@ public class TestSortAlgs {
         if (items.size() <= 1) {
             return true;
         }
-        Item curr = items.dequeue();
-        Item prev = curr;
-        while (!items.isEmpty()) {
+        Iterator<Item> iter = items.iterator();
+        Item prev;
+        Item curr = iter.next();
+        int i = 0;
+        while (i < items.size()  - 1) {
             prev = curr;
-            curr = items.dequeue();
+            curr = iter.next();
             if (curr.compareTo(prev) < 0) {
                 return false;
             }
+            i++;
         }
         return true;
     }
