@@ -11,27 +11,21 @@ public class TestSortAlgs {
 
     @Test
     public void testQuickSort() {
-
+        Assert.assertEquals(0, 0);
     }
 
     @Test
     public void testMergeSort() {
-        Queue<Integer> test = new Queue<>();
-        for (int i = 10; i > 0; i--) {
-            test.enqueue(i);
+        for (int j = 0; j < 100; j++) {
+            Queue<Integer> test = new Queue<>();
+            for (int i = j; i > 0; i--) {
+                test.enqueue(i);
+            }
+            int size = test.size();
+            test = MergeSort.mergeSort(test);
+            Assert.assertTrue(isSorted(test));
+            Assert.assertEquals(size, test.size());
         }
-
-        Queue<Integer> small = new Queue<>();
-        small.enqueue(0);
-        Queue<Integer> empty = new Queue<>();
-        test = MergeSort.mergeSort(test);
-        System.out.println(test.size());
-        Assert.assertTrue(isSorted(test));
-
-        System.out.println(test.size());
-
-        Assert.assertTrue(isSorted(MergeSort.mergeSort(small)));
-        Assert.assertTrue(isSorted(MergeSort.mergeSort(empty)));
     }
 
     /**
@@ -41,6 +35,7 @@ public class TestSortAlgs {
      * @return       true/false - whether "items" is sorted
      */
     private <Item extends Comparable> boolean isSorted(Queue<Item> items) {
+
         if (items.size() <= 1) {
             return true;
         }

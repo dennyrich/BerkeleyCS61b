@@ -95,7 +95,6 @@ public class MergeSort {
             queueOfQueues.enqueue(mergeSortedQueues(queueOfQueues.dequeue(), queueOfQueues.dequeue()));
         }
         items = queueOfQueues.dequeue();
-        System.out.println(items.size() + "cheese");
         return items;
     }
 }
