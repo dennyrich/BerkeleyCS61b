@@ -44,9 +44,13 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         Queue<Queue<Item>> queueOfQueues = new Queue<>();
-        while (!items.isEmpty()) {
+        Queue<Item> copy = new Queue<>();
+        for (Item i : items) {
+            copy.enqueue(i);
+        }
+        while (!copy.isEmpty()) {
             Queue<Item> singleItem = new Queue<>();
-            singleItem.enqueue(items.dequeue());
+            singleItem.enqueue(copy.dequeue());
             queueOfQueues.enqueue(singleItem);
         }
         return queueOfQueues;
