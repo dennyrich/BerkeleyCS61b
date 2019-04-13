@@ -16,15 +16,16 @@ public class TestSortAlgs {
 
     @Test
     public void testMergeSort() {
-        for (int j = 0; j < 100; j++) {
+        for (int j = 0; j < 10000; j++) {
             Queue<Integer> test = new Queue<>();
             for (int i = j; i > 0; i--) {
                 test.enqueue(i);
             }
             int size = test.size();
             test = MergeSort.mergeSort(test);
-            Assert.assertTrue(isSorted(test));
             Assert.assertEquals(size, test.size());
+            Assert.assertTrue(isSorted(test));
+
         }
     }
 
