@@ -143,13 +143,21 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
 
 
 
+        if (depth == 0) {
+            results.put("raster_ul_lon", ROOT_ULLON);
+            // goes to right side of xMax and yMax, hence the plus 1
+            results.put("raster_lr_lon", ROOT_ULLON);
+            results.put("raster_ul_lat", ROOT_ULLAT);
+            results.put("raster_lr_lat", ROOT_ULLAT);
 
+        } else {
+            results.put("raster_ul_lon", ROOT_ULLON + xMin * tileDeltaLon);
+            // goes to right side of xMax and yMax, hence the plus 1
+            results.put("raster_lr_lon", ROOT_ULLON + (xMax + 1) * tileDeltaLon);
+            results.put("raster_ul_lat", ROOT_ULLAT - yMin * tileDeltaLat);
+            results.put("raster_lr_lat", ROOT_ULLAT - (yMax + 1) * tileDeltaLat);
+        }
         results.put("render_grid", render_grid);
-        results.put("raster_ul_lon", ROOT_ULLON + xMin * tileDeltaLon);
-        // goes to right side of xMax and yMax, hence the plus 1
-        results.put("raster_lr_lon", ROOT_ULLON + (xMax + 1) * tileDeltaLon);
-        results.put("raster_ul_lat", ROOT_ULLAT - yMin * tileDeltaLat);
-        results.put("raster_lr_lat", ROOT_ULLAT - (yMax + 1) * tileDeltaLat);
         results.put("depth", depth);
         results.put("query_success", querySuccess);
 
