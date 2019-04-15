@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static bearmaps.proj2c.utils.Constants.SEMANTIC_STREET_GRAPH;
-import static bearmaps.proj2c.utils.Constants.ROUTE_LIST;
+import static bearmaps.proj2c.utils.Constants.*;
 
 /**
  * Handles requests from the web browser for map images. These images
@@ -81,15 +80,88 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
      *                    string. <br>
      * "query_success" : Boolean, whether the query was able to successfully complete; don't
      *                    forget to set this to true on success! <br>
+     *  ex: (param) ullon=-122.241632, lrlon=-122.24053, w=892.0, h=875.0, ullat=37.87655, lrlat=37.87548
      */
     @Override
     public Map<String, Object> processRequest(Map<String, Double> requestParams, Response response) {
-        //System.out.println("yo, wanna know the parameters given by the web browser? They are:");
-        //System.out.println(requestParams);
+        System.out.println("yo, wanna know the parameters given by the web browser? They are:");
+        System.out.println(requestParams);
         Map<String, Object> results = new HashMap<>();
         System.out.println("Since you haven't implemented RasterAPIHandler.processRequest, nothing is displayed in "
                 + "your browser.");
+
+        double lrlon = requestParams.get("lrlon"); //lower right longitude
+        double ullon = requestParams.get("ullon"); //upper left longitude
+        double ullat = requestParams.get("ullat");
+        double lrlat = requestParams.get("lrlat");
+
+        boolean querySuccess = true;
+        if (ullat < ROOT_LRLAT || lrlat > ROOT_ULLAT || lrlon < ROOT_ULLON || ullon > ROOT_LRLON) {
+            //completely outside of box
+            querySuccess = false;
+        } else if (ullat < lrlat || lrlon < ullon) {
+            //invalid lat or lon entries
+            querySuccess = false;
+        }
+
+        double deltaLon = lrlon - ullon;
+        double lonDPP = deltaLon / requestParams.get("w");
+        double rootDeltaLon = ROOT_LRLON - ROOT_ULLON; //0.087890625
+        double rootDeltaLat = ROOT_ULLAT - ROOT_LRLAT;
+
+        int depth = 0;
+        int numSquaresPerSide = 0;
+        //longitude change per square / tile size
+        while (depth <= 7) {
+            numSquaresPerSide =  (int) Math.pow(2, depth);
+            double deltaLonPerSquare = rootDeltaLon / (double) numSquaresPerSide;
+            double lonDPPatDepth = deltaLonPerSquare / (double) TILE_SIZE;
+            if (lonDPPatDepth < lonDPP || depth == 7) {
+                break;
+            }
+            depth++;
+        }
+
+        double tileDeltaLon = rootDeltaLon / numSquaresPerSide;
+        double tileDeltaLat = rootDeltaLat / numSquaresPerSide;
+
+        int xMin = (int) ((ullon - ROOT_ULLON) / tileDeltaLon);
+        int xMax = (int) ((lrlon - ROOT_ULLON) / tileDeltaLon);
+        int yMin = (int) ((ROOT_ULLAT - ullat) / tileDeltaLat);
+        int yMax = (int) ((ROOT_ULLAT - lrlat) / tileDeltaLat);
+
+        xMax = correctBound(xMax, numSquaresPerSide);
+        xMin = correctBound(xMin, numSquaresPerSide);
+        yMax = correctBound(yMax, numSquaresPerSide);
+        yMin = correctBound(yMin, numSquaresPerSide);
+
+
+        String[][] render_grid = new String[yMax- yMin + 1][xMax - xMin + 1];
+        for (int i = xMin; i <= xMax ; i++) {
+            for (int j = yMin; j <= yMax; j++) {
+                render_grid[j - yMin][i - xMin] = "d" + depth + "_x" + i + "_y" + j + ".png";
+            }
+        }
+
+
+
+
+        results.put("render_grid", render_grid);
+        results.put("raster_ul_lon", ROOT_ULLON + xMin * tileDeltaLon);
+        // goes to right side of xMax and yMax, hence the plus 1
+        results.put("raster_lr_lon", ROOT_ULLON + (xMax + 1) * tileDeltaLon);
+        results.put("raster_ul_lat", ROOT_ULLAT - yMin * tileDeltaLat);
+        results.put("raster_lr_lat", ROOT_ULLAT - (yMax + 1) * tileDeltaLat);
+        results.put("depth", depth);
+        results.put("query_success", querySuccess);
+
         return results;
+    }
+
+    private int correctBound(int x, int max) {
+        x = Math.max(0, x);
+        x = Math.min(x, max);
+        return x;
     }
 
     @Override
