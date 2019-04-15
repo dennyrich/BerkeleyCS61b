@@ -146,7 +146,7 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
 
 
         if (depth == 0) {
-            results.put("raster_ul_lon", 43.0);
+            results.put("raster_ul_lon", ROOT_ULLON);
             // goes to right side of xMax and yMax, hence the plus 1
             results.put("raster_lr_lon", ROOT_LRLON);
             results.put("raster_ul_lat", ROOT_ULLAT);
