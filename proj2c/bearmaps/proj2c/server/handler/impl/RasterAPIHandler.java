@@ -96,11 +96,11 @@ public class RasterAPIHandler extends APIRouteHandler<Map<String, Double>, Map<S
         boolean querySuccess = true;
         if (ullat < ROOT_LRLAT || lrlat > ROOT_ULLAT || lrlon < ROOT_ULLON || ullon > ROOT_LRLON) {
             //completely outside of box
-            querySuccess = false;
+            //querySuccess = false;
             return queryFail();
         } else if (ullat < lrlat || lrlon < ullon) {
             //invalid lat or lon entries
-            querySuccess = false;
+            //querySuccess = false;
             return queryFail();
         }
 
