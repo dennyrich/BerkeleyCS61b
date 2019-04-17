@@ -23,7 +23,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
 
     private TrieSET namesTrie;
     private Map<String, List<Node>> namesMappedToNodes;
-    private Map<String, Set<String>> cleanedToActual;
+    private Map<String, List<String>> cleanedToActual;
 
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
@@ -43,6 +43,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                 noPlaces.add(p);
                 noPlacesMap.put(p, n);
             }
+
             String name = n.name();
             if (name != null) {
                 // do all this only if the node has a name
@@ -51,11 +52,13 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
 
                 if (namesMappedToNodes.containsKey(cleanedName)) {
                     namesMappedToNodes.get(cleanedName).add(n);
-                    cleanedToActual.get(cleanedName).add(name);
+                    if (!cleanedToActual.get(cleanedName).contains(name)) {
+                        cleanedToActual.get(cleanedName).add(name);
+                    }
                 } else {
                     List<Node> namesInMap = new LinkedList<>();
                     namesInMap.add(n);
-                    Set<String> names = new HashSet<>();
+                    List<String> names = new LinkedList<>();
                     names.add(name);
                     namesMappedToNodes.put(cleanedName, namesInMap);
                     cleanedToActual.put(cleanedName, names);
