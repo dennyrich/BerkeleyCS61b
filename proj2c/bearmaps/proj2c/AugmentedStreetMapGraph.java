@@ -4,10 +4,7 @@ import bearmaps.hw4.streetmap.Node;
 import bearmaps.hw4.streetmap.StreetMapGraph;
 import bearmaps.proj2ab.Point;
 import bearmaps.proj2ab.WeirdPointSet;
-import edu.princeton.cs.algs4.TrieSET;
 import edu.princeton.cs.algs4.TrieST;
-import org.apache.commons.math3.geometry.spherical.twod.Vertex;
-import org.eclipse.jetty.util.Trie;
 
 import java.util.*;
 
@@ -19,36 +16,41 @@ import java.util.*;
  * @author Alan Yao, Josh Hug, ________
  */
 public class AugmentedStreetMapGraph extends StreetMapGraph {
+    //these two are for closest method
     private List<Point> noPlaces;
     private Map<Point, Node> noPlacesMap;
-    private TrieST<Node> names;
-    private Map<String, LinkedList<Node>> locationsByName;
+
+    private TrieST<Node> namesTrie;
+    private Map<String, LinkedList<Node>> namesMappedToNodes;
+
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
         List<Node> nodes = this.getNodes();
         noPlaces = new ArrayList<>();
         noPlacesMap = new HashMap<>();
-        names = new TrieST<>();
-        locationsByName = new HashMap<>();
+
+        namesTrie = new TrieST<>();
+        namesMappedToNodes = new HashMap<>();
 
         for (Node n : nodes) {
+
+            if (!this.neighbors(n.id()).isEmpty()) {
+                Point p = new Point(n.lon(), n.lat());
+                noPlaces.add(p);
+                noPlacesMap.put(p, n);
+            }
             String name = n.name();
             if (name != null) {
                 // do all this only if the node has a name
                 name = cleanString(name);
-                names.put(name, n);
-                if (!this.neighbors(n.id()).isEmpty()) {
-                    Point p = new Point(n.lon(), n.lat());
-                    noPlaces.add(p);
-                    noPlacesMap.put(p, n);
-                }
-                if (locationsByName.containsKey(name)) {
-                    locationsByName.get(name).add(n);
+                namesTrie.put(name, n);
+                if (namesMappedToNodes.containsKey(name)) {
+                    namesMappedToNodes.get(name).add(n);
                 } else {
                     LinkedList<Node> names = new LinkedList<>();
                     names.add(n);
-                    locationsByName.put(name, names);
+                    namesMappedToNodes.put(name, names);
                 }
             }
         }
@@ -70,16 +72,24 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
 
     /**
      * For Project Part III (gold points)
-     * In linear time, collect all the names of OSM locations that prefix-match the query string.
+     * In linear time, collect all the namesTrie of OSM locations that prefix-match the query string.
      * @param prefix Prefix string to be searched for. Could be any case, with our without
      *               punctuation.
-     * @return A <code>List</code> of the full names of locations whose cleaned name matches the
+     * @return A <code>List</code> of the full namesTrie of locations whose cleaned name matches the
      * cleaned <code>prefix</code>.
      */
     public List<String> getLocationsByPrefix(String prefix) {
         List<String> locations = new LinkedList<>();
-        for (String name : names.keysWithPrefix(prefix)) {
-            locations.add(locationsByName.get(name).peekFirst().name());
+        for (String name : namesTrie.keysWithPrefix(prefix)) {
+            List<Node> nodes = namesMappedToNodes.get(name);
+            if (nodes != null) {
+                for (Node n : nodes) {
+                    if (!locations.contains(name)) {
+                        locations.add(n.name());
+                    }
+                }
+            }
+            //locations.add(namesMappedToNodes.get(name).peekFirst().name());
         }
         return locations;
     }
@@ -100,8 +110,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     public List<Map<String, Object>> getLocations(String locationName) {
         locationName = cleanString(locationName);
         List<Map<String, Object>> locations = new LinkedList<>();
-        if (locationsByName.get(locationName) != null) {
-            for (Node n : locationsByName.get(locationName)) {
+        if (namesMappedToNodes.get(locationName) != null) {
+            for (Node n : namesMappedToNodes.get(locationName)) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("lat", n.lat());
                 map.put("lon", n.lon());
