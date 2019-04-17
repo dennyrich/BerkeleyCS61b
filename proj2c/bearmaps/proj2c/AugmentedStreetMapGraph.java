@@ -16,11 +16,22 @@ import java.util.*;
  * @author Alan Yao, Josh Hug, ________
  */
 public class AugmentedStreetMapGraph extends StreetMapGraph {
-
+    private List<Point> noPlaces;
+    private Map<Point, Node> noPlacesMap;
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
         List<Node> nodes = this.getNodes();
+        noPlaces = new ArrayList<>();
+        noPlacesMap = new HashMap<>();
+
+        for (Node n : nodes) {
+            if (!this.neighbors(n.id()).isEmpty()) {
+                Point p = new Point(n.lon(), n.lat());
+                noPlaces.add(p);
+                noPlacesMap.put(p, n);
+            }
+        }
     }
 
 
@@ -32,18 +43,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
      * @return The id of the node in the graph closest to the target.
      */
     public long closest(double lon, double lat) {
-        HashMap<Point, Node> nodes = new HashMap<>();
-        List<Point> listOfPoints = new ArrayList<>();
-        for (Node n : getNodes()) {
-            // if current node has neighbors
-            if (!this.neighbors(n.id()).isEmpty()) {
-                Point p = new Point(n.lon(), n.lat());
-                nodes.put(p, n);
-                listOfPoints.add(p);
-            }
-        }
-        WeirdPointSet verteces = new WeirdPointSet(listOfPoints);
-        return nodes.get(verteces.nearest(lon, lat)).id();
+        WeirdPointSet verteces = new WeirdPointSet(noPlaces);
+        return noPlacesMap.get(verteces.nearest(lon, lat)).id();
     }
 
 
