@@ -50,6 +50,17 @@ public class TestRouter {
         }
     }
 
+    @Test
+    public void testGetLocationsByPrefix() {
+        System.out.println(graph.getLocationsByPrefix("z"));
+    }
+
+    @Test
+    public void testGetLocations() {
+        System.out.println(graph.getLocations("top dog"));
+        System.out.println(graph.getLocations("bllorp"));
+    }
+
     private List<Map<String, Double>> paramsFromFile() throws Exception {
         List<String> lines = Files.readAllLines(Paths.get(PARAMS_FILE), Charset.defaultCharset());
         List<Map<String, Double>> testParams = new ArrayList<>();
