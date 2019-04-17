@@ -35,9 +35,11 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         HashMap<Point, Node> nodes = new HashMap<>();
         List<Point> listOfPoints = new ArrayList<>();
         for (Node n : getNodes()) {
-            Point p = new Point(n.lon(), n.lat());
-            nodes.put(p, n);
-            listOfPoints.add(p);
+            if (this.neighbors(n.id()) != null) {
+                Point p = new Point(n.lon(), n.lat());
+                nodes.put(p, n);
+                listOfPoints.add(p);
+            }
         }
         WeirdPointSet verteces = new WeirdPointSet(listOfPoints);
         return nodes.get(verteces.nearest(lon, lat)).id();
