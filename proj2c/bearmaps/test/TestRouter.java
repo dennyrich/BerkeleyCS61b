@@ -52,7 +52,7 @@ public class TestRouter {
 
     @Test
     public void testGetLocationsByPrefix() {
-        System.out.println(graph.getLocationsByPrefix("z"));
+        System.out.println(graph.getLocationsByPrefix(" "));
     }
 
     @Test

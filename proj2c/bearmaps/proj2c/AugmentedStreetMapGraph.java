@@ -22,7 +22,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private List<Point> noPlaces;
     private Map<Point, Node> noPlacesMap;
     private TrieST<Node> names;
-    private Map<String, List<Node>> locationsByName;
+    private Map<String, LinkedList<Node>> locationsByName;
     public AugmentedStreetMapGraph(String dbPath) {
         super(dbPath);
         // You might find it helpful to uncomment the line below:
@@ -46,7 +46,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
                 if (locationsByName.containsKey(name)) {
                     locationsByName.get(name).add(n);
                 } else {
-                    List<Node> names = new LinkedList<>();
+                    LinkedList<Node> names = new LinkedList<>();
                     names.add(n);
                     locationsByName.put(name, names);
                 }
@@ -79,7 +79,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     public List<String> getLocationsByPrefix(String prefix) {
         List<String> locations = new LinkedList<>();
         for (String name : names.keysWithPrefix(prefix)) {
-            locations.add(name);
+            locations.add(locationsByName.get(name).peekFirst().name());
         }
         return locations;
     }
