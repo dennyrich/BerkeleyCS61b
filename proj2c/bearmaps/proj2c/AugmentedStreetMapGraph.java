@@ -35,7 +35,8 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         HashMap<Point, Node> nodes = new HashMap<>();
         List<Point> listOfPoints = new ArrayList<>();
         for (Node n : getNodes()) {
-            if (this.neighbors(n.id()) != null) {
+            // if current node has neighbors
+            if (!this.neighbors(n.id()).isEmpty()) {
                 Point p = new Point(n.lon(), n.lat());
                 nodes.put(p, n);
                 listOfPoints.add(p);

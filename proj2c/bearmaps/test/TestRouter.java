@@ -46,7 +46,7 @@ public class TestRouter {
                     params.get("start_lon"), params.get("start_lat"),
                     params.get("end_lon"), params.get("end_lat"));
             List<Long> expected = expectedResults.get(i);
-            assertEquals("Your results did not match the expected results", expected, actual);
+            assertEquals("Your results did not match the expected results" + i, expected, actual);
         }
     }
 
