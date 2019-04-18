@@ -57,8 +57,8 @@ public class TestRouter {
 
     @Test
     public void testGetLocations() {
-        System.out.println(graph.getLocations("top dog"));
-        System.out.println(graph.getLocations("bllorp"));
+        System.out.println(graph.getLocations("7 eleven"));
+        System.out.println(graph.getLocations("t"));
     }
 
     private List<Map<String, Double>> paramsFromFile() throws Exception {
