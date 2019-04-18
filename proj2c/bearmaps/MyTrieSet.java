@@ -1,86 +1,108 @@
-package  bearmaps;
+package bearmaps;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class MyTrieSet {
-    private static class Node {
-        char letter;
-        boolean isWord;
-        //Node parent;
-        Map<Character, Node>  children;
+public class MyTrieSet  {
+    private class Node {
+        private Object key;
+        private boolean isKey;
+        private HashMap<Object, Node> map;
 
-        private Node(char c) {
-            this.letter = c;
-            //this.parent = null;
-            this.children = new HashMap<>();
+        Node(Object key, boolean isKey) {
+            this.key = key;
+            this.isKey = isKey;
+            map = new HashMap<>();
+        }
+
+        boolean isKey() {
+            return isKey;
+        }
+
+        List<String> getKeys() {
+            List<String> keys = new ArrayList<>();
+            for (Node n : map.values()) {
+                String key = "";
+                if (n.isKey()) {
+                    keys.add(key);
+                } else {
+                    for (String s : n.getKeys()) {
+                        keys.add(s);
+                    }
+                }
+            }
+            return keys;
         }
     }
 
-    /**
-     * only has add and prefix operations
-     */
-    Node root;
-    Set<String> words;
+    private Node root;
+
     public MyTrieSet() {
-        this.root = new Node(' ');
-        words = new HashSet<>();
+        root = new Node("", false);
     }
 
-    public void add(String word) {
-        if (words.contains(word) || word == null || word.length() == 0) {
-            return;
+
+    public void clear() {
+        root = new Node("", false);
+    }
+
+    public boolean contains(String key) {
+        if (key == null) {
+            throw new IllegalArgumentException();
         }
         Node curr = root;
-        for (int i = 0; i < word.length(); i++) {
-            char c = word.charAt(i);
-            if (!curr.children.containsKey(c)) {
-                //curr.children.get(curr).parent = curr;
-                curr.children.put(c, new Node(c));
+        for (int i = 0, n = key.length(); i < n; i++) {
+            char c = key.charAt(i);
+            if (!curr.map.containsKey(c)) {
+                return false;
             }
-
-            curr = curr.children.get(c);
+            curr = curr.map.get(c);
         }
-        curr.isWord = true;
+        return curr.isKey();
     }
-
-
-    /** Returns a list of all words that start with PREFIX */
 
     public List<String> keysWithPrefix(String prefix) {
-        Node current = root;
-        for (int i = 0; i < prefix.length(); i++) {
-            current = current.children.get(prefix.charAt(i));
+        List<String> result = new ArrayList<>();
+        Node curr = root;
+        for (int i = 0, n = prefix.length(); i < n; i++) {
+            char c = prefix.charAt(i);
+            if (!curr.map.containsKey(c)) {
+                return result;
+            }
+            curr = curr.map.get(c);
         }
-
-        List<String> listSoFar = new ArrayList<>();
-        listSoFar.add(prefix);
-        completeTheList(listSoFar, current, prefix);
-        return listSoFar;
+        collect(prefix, result, curr);
+        return result;
     }
 
-    private void completeTheList(List<String> listSoFar, Node n, String word) {
-        //word += n.letter;
-        if (n.children.isEmpty()) {
-            listSoFar.add(word);
+    private void collect(String prefix, List<String> lst, Node n) {
+        if (n.isKey()) {
+            lst.add(prefix);
+        }
+        for (Object c : n.map.keySet()) {
+            collect(prefix + c, lst, n.map.get(c));
+        }
+        return;
+    }
+
+    public String longestPrefixOf(String key) {
+        throw new UnsupportedOperationException();
+    }
+
+
+    public void add(String key) {
+        if (key == null || key.length() < 1 || contains(key)) {
             return;
         }
-        if (n.isWord) {
-            listSoFar.add(word);
-        }
-        for (Node child : n.children.values()) {
-            completeTheList(listSoFar, child, word + child.letter);
-        }
-    }
-
-    private Node getToNode(String prefix) {
         Node curr = root;
-        for (int i = 0; i < prefix.length(); i++) {
-            char c = prefix.charAt(i);
-            if (!curr.children.containsKey(c)) {
-                return null;
+        for (int i = 0, n = key.length(); i < n; i++) {
+            char c = key.charAt(i);
+            if (!curr.map.containsKey(c)) {
+                curr.map.put(c, new Node(c, false));
             }
-            curr = curr.children.get(c);
+            curr = curr.map.get(c);
         }
-        return curr;
+        curr.isKey = true;
     }
 }

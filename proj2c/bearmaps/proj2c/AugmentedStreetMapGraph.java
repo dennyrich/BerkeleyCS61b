@@ -24,7 +24,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
     private Map<Point, Node> noPlacesMap;
 
 
-    private TrieSET namesTrie;
+    private MyTrieSet namesTrie;
     private Map<String, List<Node>> cleanedNamesMappedToNodes;
 
     public AugmentedStreetMapGraph(String dbPath) {
@@ -34,7 +34,7 @@ public class AugmentedStreetMapGraph extends StreetMapGraph {
         noPlaces = new ArrayList<>();
         noPlacesMap = new HashMap<>();
 
-        namesTrie = new TrieSET();
+        namesTrie = new MyTrieSet();
         cleanedNamesMappedToNodes = new HashMap<>();
 
         for (Node n : nodes) {
